@@ -210,7 +210,7 @@ void LessOrEqual::generate()
 
 void GreaterOrEqual::generate()
 {
-  compare(_left, _right, this, "setge")
+  compare(_left, _right, this, "setge");
 }
 
 
