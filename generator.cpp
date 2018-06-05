@@ -14,6 +14,7 @@
 # include "Register.h"
 # include "machine.h"
 # include "Tree.h"
+# include "label.h"
 
 using namespace std;
 
