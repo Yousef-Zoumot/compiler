@@ -239,7 +239,7 @@ void Subtract::generate()
   cout << "\tsub\t" << _right << ", " << _left << endl;
 
   assign(_right, nullptr);
-  assign(this, _left->register);
+  assign(this, _left->_register);
 }
 
 void Multiply::generate()
@@ -253,7 +253,7 @@ void Multiply::generate()
   cout << "\timul\t" << _right << ", " << _left << endl;
 
   assign(_right, nullptr);
-  assign(this, _left->register);
+  assign(this, _left->_register);
 }
 // cout << "\tmov\t" << _left << ", %rax" << endl;
 // cout << "\tmov\t" << _right << ", %rcx" << endl;
