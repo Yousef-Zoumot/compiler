@@ -275,19 +275,19 @@ void Multiply::generate()
 //   assign(this, _left->register);
 // }
 //
-// void Remainder::generate()
-// {
-//   _left->generate();
-//   _right->generate();
-//
-//   if(_left->_register == nullptr)
-//     load(_left, getreg());
-//
-//   cout << "\tidiv\t" << "%rcx" << endl;
-//
-//   assign(_right, nullptr);
-//   assign(this, _left->register);
-// }
+void Remainder::generate()
+{
+  _left->generate();
+  _right->generate();
+
+  if(_left->_register == nullptr)
+    load(_left, getreg());
+
+  cout << "\tidiv\t" << "%rcx" << endl;
+
+  assign(_right, nullptr);
+  assign(this, _left->register);
+}
 //
 // void Negate::generate()
 // {
