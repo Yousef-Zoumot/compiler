@@ -286,7 +286,7 @@ void Remainder::generate()
   cout << "\tidiv\t" << "%rcx" << endl;
 
   assign(_right, nullptr);
-  assign(this, _left->register);
+  assign(this, _left->_register);
 }
 //
 // void Negate::generate()
