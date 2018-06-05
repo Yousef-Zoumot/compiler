@@ -12,7 +12,7 @@ public:
   unsigned number() const;
 };
 
-ostream &operator <<(std::ostream &ostr, const Label &label);
+std::ostream &operator <<(std::ostream &ostr, const Label &label);
 //std:ostream &operator <<(std::ostream &ostr, const Label &label);
 
 
