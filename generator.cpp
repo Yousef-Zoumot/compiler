@@ -168,7 +168,7 @@ void release()
 
 
 
-void compare(Expression * _left, Expression * _right, Expression * this, const std::string &operation){
+void compare(Expression * _left, Expression * _right, Expression * this_thing, const std::string &operation){
   _left->generate();
   _right->generate();
 
@@ -180,7 +180,7 @@ void compare(Expression * _left, Expression * _right, Expression * this, const s
   cout << "\tmovzbl\t" << _left->_register->name(1) << ", " << _left->_register->name(4) << endl;
 
   assign(_right, nullptr);
-  assign(this, _left->_register);
+  assign(this_thing, _left->_register);
 }
 
 void Equal::generate()
