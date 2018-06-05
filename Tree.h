@@ -29,6 +29,7 @@
 # include <vector>
 # include "Scope.h"
 # include "Register.h"
+# include "label.h"
 
 typedef std::vector<class Statement *> Statements;
 typedef std::vector<class Expression *> Expressions;
