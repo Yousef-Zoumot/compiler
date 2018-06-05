@@ -1,4 +1,5 @@
 #include "label.h"
+# include "machine.h"
 
 using namespace std;
 unsigned Label:: _counter = 0;
