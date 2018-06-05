@@ -84,16 +84,6 @@ void assign(Expression *expr, Register *reg)
   }
 }
 
-Register * getreg()
-{
-  for(unsigned i = 0; i < registers.size(); i++)
-    if(registers[i]->_node == nullptr)
-      return registers[i];
-
-  load(nullptr, registers[0]);
-  return registers[0];
-}
-
 void load(Expression *expr, Register *reg)
 {
   if(reg->_node != expr){
@@ -115,6 +105,16 @@ void load(Expression *expr, Register *reg)
     }
     assign(expr, reg);
   }
+}
+
+Register * getreg()
+{
+  for(unsigned i = 0; i < registers.size(); i++)
+    if(registers[i]->_node == nullptr)
+      return registers[i];
+
+  load(nullptr, registers[0]);
+  return registers[0];
 }
 
 void Expression::test(const Label &label, bool ifTrue)
