@@ -137,6 +137,22 @@ void release()
     assign(nullptr, registers[i]);
 }
 
+// for(unsigned i = 0; i < _args.size(); i++)
+//   _args[i]->generate();
+// for(i = 0; i < registers.size(); i++)
+//   load(nullptr, registers[i]);
+
+//Lecture #19
+ //use cltd not cltq
+ //equivilant to
+// cltd
+//  movl %eax, %edx
+//  sarl $31, %edx
+// cqto
+//   movq %rax, %rdx
+//   sarq %31, %rdx
+
+
 // void LessThan::test(const Label &label, bool onTrue)
 // {
 //   _left->generate();
@@ -261,20 +277,20 @@ void Multiply::generate()
 // cout << "\tidiv\t %rcx" << endl;
 // cout << "\tmov\t %rax, " << this << endl;
 
-// void Divide::generate()
-// {
-//   _left->generate();
-//   _right->generate();
-//
-//   load(_left, rax);
-//   load(nullptr, rdx);
-//
-//   cout << "\tidiv\t" <<  << endl;
-//
-//   assign(_right, nullptr);
-//   assign(this, _left->register);
-// }
-//
+void Divide::generate()
+{
+  _left->generate();
+  _right->generate();
+
+  load(_left, rax);
+  load(nullptr, rdx);
+
+  cout << "\tidiv\t" <<  << endl;
+
+  assign(_right, nullptr);
+  assign(this, _left->register);
+}
+
 void Remainder::generate()
 {
   _left->generate();
@@ -288,69 +304,69 @@ void Remainder::generate()
   assign(_right, nullptr);
   assign(this, _left->_register);
 }
-//
-// void Negate::generate()
-// {
-//   _expr->generate();
-//
-//   cout << "\tmovl\t" << _expr << ", %eax" << endl;
-//   cout << "\tnegl\t" << "%eax" << endl;
-//   cout << "\taddl\t" << ? << endl;
-//
-// }
-//
-// void Not::generate()
-// {
-//   _expr->generate();
-//
-//
-//   cout << "\tmovl\t" << _expr << ", %eax" << endl;
-//   cout << "\tcmpl\t" << "$0, %eax" << endl;
-//   cout << "\tsete %al" << endl;
-//   cout << "\tmovzbl %al, %eax" << endl;
-//
-// }
-//
-// void Dereference::generate()
-// {
-//   _expr->generate();
-//
-//   cout <<"\tmovl\t" << _expr << ", %rax" << endl;
-//   cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "\t(%rax), %rax" << endl;
-//   cout << "\tmovl\t" << "%rax, " << ? << endl;
-// }
-//
-// void Address::generate()
-// {
-//   _expr->generate();
-//
-//   cout << "\tleal\t" << _expr << ", %rax" << endl;
-//   cout << "\tmovl\t" << "%rax, " << ? << endl;
-// }
-//
-// void LogicalAnd::generate()
-// {
-//   _left->generate();
-//   _right->generate();
-//
-//   Label label;
-//   stringstream ss;
-//   ss << label;
-//
-//   cout << "\tmov\t" << _left << ", %rax" << endl;
-//   cout << "\tcmp\t" << "$0, %rax" << endl;
-//   cout << "je\t" << label << ":" << endl;
-//
-//   cout << "\tmov\t" << _right << ", %rax" << endl;
-//   cout << "\tcmp\t" << "$0, %rax" << endl;
-//   cout << label << ":" << endl;
-//   cout << "\tsetne\t" << "%al" << endl;
-//   cout << "\tmovzbl\t" << "%al, %eax" << endl;
-//   cout << "\tmov\t" << "%eax, " << ? << endl;
-//
-// }
-//
-//
+
+void Negate::generate()
+{
+  _expr->generate();
+
+  cout << "\tmovl\t" << _expr << ", %eax" << endl;
+  cout << "\tnegl\t" << "%eax" << endl;
+  cout << "\taddl\t" << ? << endl;
+
+}
+
+void Not::generate()
+{
+  _expr->generate();
+
+
+  cout << "\tmovl\t" << _expr << ", %eax" << endl;
+  cout << "\tcmpl\t" << "$0, %eax" << endl;
+  cout << "\tsete %al" << endl;
+  cout << "\tmovzbl %al, %eax" << endl;
+
+}
+
+void Dereference::generate()
+{
+  _expr->generate();
+
+  cout <<"\tmovl\t" << _expr << ", %rax" << endl;
+  cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "\t(%rax), %rax" << endl;
+  cout << "\tmovl\t" << "%rax, " << ? << endl;
+}
+
+void Address::generate()
+{
+  _expr->generate();
+
+  cout << "\tleal\t" << _expr << ", %rax" << endl;
+  cout << "\tmovl\t" << "%rax, " << ? << endl;
+}
+
+void LogicalAnd::generate()
+{
+  _left->generate();
+  _right->generate();
+
+  Label label;
+  stringstream ss;
+  ss << label;
+
+  cout << "\tmov\t" << _left << ", %rax" << endl;
+  cout << "\tcmp\t" << "$0, %rax" << endl;
+  cout << "je\t" << label << ":" << endl;
+
+  cout << "\tmov\t" << _right << ", %rax" << endl;
+  cout << "\tcmp\t" << "$0, %rax" << endl;
+  cout << label << ":" << endl;
+  cout << "\tsetne\t" << "%al" << endl;
+  cout << "\tmovzbl\t" << "%al, %eax" << endl;
+  cout << "\tmov\t" << "%eax, " << ? << endl;
+
+}
+
+
 
 void While::generate()
 {
