@@ -73,7 +73,7 @@ public:
 
     const Type &type() const;
     bool lvalue() const;
-    virtual void generate();
+    // virtual void generate();
     virtual void test(const Label &label, bool ifTrue);
     //virtual void generate(bool &indirection);
 };
@@ -87,7 +87,7 @@ protected:
     Binary(Expression *left, Expression *right, const Type &type);
 //
 public:
-    virtual void generate();
+    // virtual void generate();
 };
 
 
@@ -99,7 +99,7 @@ protected:
     Unary(Expression *expr, const Type &type);
 //
 public:
-    virtual void generate();
+    // virtual void generate();
 };
 
 
@@ -111,7 +111,7 @@ class String : public Expression {
 public:
     String(const string &value);
     const string &value() const;
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -158,7 +158,7 @@ public:
 class Not : public Unary {
 public:
     Not(Expression *expr, const Type &type);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -168,7 +168,7 @@ public:
 class Negate : public Unary {
 public:
     Negate(Expression *expr, const Type &type);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -178,7 +178,7 @@ public:
 class Dereference : public Unary {
 public:
     Dereference(Expression *expr, const Type &type);
-    virtual void generate();
+    // virtual void generate();
     // virtual void generate(bool &indirection);
 };
 
@@ -188,7 +188,7 @@ public:
 class Address : public Unary {
 public:
     Address(Expression *expr, const Type &type);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -198,7 +198,7 @@ public:
 class Cast : public Unary {
 public:
     Cast(const Type &type, Expression *expr);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -218,7 +218,7 @@ public:
 class Divide : public Binary {
 public:
     Divide(Expression *left, Expression *right, const Type &type);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -318,7 +318,7 @@ public:
 class LogicalAnd: public Binary {
 public:
     LogicalAnd(Expression *left, Expression *right, const Type &type);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -328,7 +328,7 @@ public:
 class LogicalOr : public Binary {
 public:
     LogicalOr(Expression *left, Expression *right, const Type &type);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -340,7 +340,7 @@ class Assignment : public Statement {
 
 public:
     Assignment(Expression *left, Expression *right);
-    virtual void generate();
+    // virtual void generate();
 };
 
 
@@ -351,7 +351,7 @@ class Return : public Statement {
 
 public:
     Return(Expression *expr);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -393,7 +393,7 @@ class If : public Statement {
 public:
     If(Expression *expr, Statement *thenStmt, Statement *elseStmt);
     virtual void allocate(int &offset) const;
-    virtual void generate();
+    // virtual void generate();
 
 };
 
