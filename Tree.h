@@ -340,7 +340,7 @@ class Assignment : public Statement {
 
 public:
     Assignment(Expression *left, Expression *right);
-    // virtual void generate();
+    virtual void generate();
 };
 
 
