@@ -304,69 +304,69 @@ void Remainder::generate()
   assign(_right, nullptr);
   assign(this, _left->_register);
 }
-
-void Negate::generate()
-{
-  _expr->generate();
-
-  cout << "\tmovl\t" << _expr << ", %eax" << endl;
-  cout << "\tnegl\t" << "%eax" << endl;
-  cout << "\taddl\t" << ? << endl;
-
-}
-
-void Not::generate()
-{
-  _expr->generate();
-
-
-  cout << "\tmovl\t" << _expr << ", %eax" << endl;
-  cout << "\tcmpl\t" << "$0, %eax" << endl;
-  cout << "\tsete %al" << endl;
-  cout << "\tmovzbl %al, %eax" << endl;
-
-}
-
-void Dereference::generate()
-{
-  _expr->generate();
-
-  cout <<"\tmovl\t" << _expr << ", %rax" << endl;
-  cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "\t(%rax), %rax" << endl;
-  cout << "\tmovl\t" << "%rax, " << ? << endl;
-}
-
-void Address::generate()
-{
-  _expr->generate();
-
-  cout << "\tleal\t" << _expr << ", %rax" << endl;
-  cout << "\tmovl\t" << "%rax, " << ? << endl;
-}
-
-void LogicalAnd::generate()
-{
-  _left->generate();
-  _right->generate();
-
-  Label label;
-  stringstream ss;
-  ss << label;
-
-  cout << "\tmov\t" << _left << ", %rax" << endl;
-  cout << "\tcmp\t" << "$0, %rax" << endl;
-  cout << "je\t" << label << ":" << endl;
-
-  cout << "\tmov\t" << _right << ", %rax" << endl;
-  cout << "\tcmp\t" << "$0, %rax" << endl;
-  cout << label << ":" << endl;
-  cout << "\tsetne\t" << "%al" << endl;
-  cout << "\tmovzbl\t" << "%al, %eax" << endl;
-  cout << "\tmov\t" << "%eax, " << ? << endl;
-
-}
-
-
+//
+// void Negate::generate()
+// {
+//   _expr->generate();
+//
+//   cout << "\tmovl\t" << _expr << ", %eax" << endl;
+//   cout << "\tnegl\t" << "%eax" << endl;
+//   cout << "\taddl\t" << ? << endl;
+//
+// }
+//
+// void Not::generate()
+// {
+//   _expr->generate();
+//
+//
+//   cout << "\tmovl\t" << _expr << ", %eax" << endl;
+//   cout << "\tcmpl\t" << "$0, %eax" << endl;
+//   cout << "\tsete %al" << endl;
+//   cout << "\tmovzbl %al, %eax" << endl;
+//
+// }
+//
+// void Dereference::generate()
+// {
+//   _expr->generate();
+//
+//   cout <<"\tmovl\t" << _expr << ", %rax" << endl;
+//   cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "\t(%rax), %rax" << endl;
+//   cout << "\tmovl\t" << "%rax, " << ? << endl;
+// }
+//
+// void Address::generate()
+// {
+//   _expr->generate();
+//
+//   cout << "\tleal\t" << _expr << ", %rax" << endl;
+//   cout << "\tmovl\t" << "%rax, " << ? << endl;
+// }
+//
+// void LogicalAnd::generate()
+// {
+//   _left->generate();
+//   _right->generate();
+//
+//   Label label;
+//   stringstream ss;
+//   ss << label;
+//
+//   cout << "\tmov\t" << _left << ", %rax" << endl;
+//   cout << "\tcmp\t" << "$0, %rax" << endl;
+//   cout << "je\t" << label << ":" << endl;
+//
+//   cout << "\tmov\t" << _right << ", %rax" << endl;
+//   cout << "\tcmp\t" << "$0, %rax" << endl;
+//   cout << label << ":" << endl;
+//   cout << "\tsetne\t" << "%al" << endl;
+//   cout << "\tmovzbl\t" << "%al, %eax" << endl;
+//   cout << "\tmov\t" << "%eax, " << ? << endl;
+//
+// }
+//
+//
 
 void While::generate()
 {
