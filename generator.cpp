@@ -60,13 +60,13 @@ vector<Register *> registers = {r11, r10, r9, r8, rcx, rdx, rsi, rdi, rax};
 
 int temp_offset;
 
-// void assignTemp(Expression *expr)
-// {
-//   stringstream ss;
-//   temp_offset -= expr->type().size();
-//   ss << temp_offset << "(%rbp)";
-//   expr->_operand == ss.str();
-// }
+void assignTemp(Expression *expr)
+{
+  stringstream ss;
+  temp_offset -= expr->type().size();
+  ss << temp_offset << "(%rbp)";
+  expr->_operand = ss.str();
+}
 
 void assign(Expression *expr, Register *reg)
 {
@@ -654,12 +654,12 @@ void Call::generate()
 	cout << "\taddq\t$" << bytesPushed << ", %rsp" << endl;
 
   if(this->type().size() == 1){
-    cout << "\ttmovb\t%al, (%rbp)" << endl;
+    cout << "\ttmovb\t%al, " << this->_operand << endl;
   } else if(this->type().size() == 4){
-    cout << "\tmovl\t%eax, (%rbp)" << endl;
+    cout << "\tmovl\t%eax, " << this->_operand << endl;
   }
   else
-    cout << "\tmov\t%rax, (%rbp)" << endl;
+    cout << "\tmov\t%rax, " << this->_operand << endl;
 
 
 }
