@@ -691,20 +691,20 @@ void Assignment::generate()
     if(indirection) { //*p = expr
 
         if(_left->type().size() == 1)
-            cout << "\tmovb\t%" << _right->_register->name(1) << ", (%" << _left << ")" << endl;
+            cout << "\tmovb\t" << _right->_register->name(1) << ", (" << _left << ")" << endl;
         else if(_left->type().size() == 4)
-        cout << "\tmovl\t%" << _right->_register->name(4) << ", (%" << _left << ")" << endl;
+        cout << "\tmovl\t" << _right->_register->name(4) << ", (" << _left << ")" << endl;
         else
-        cout << "\tmov\t%" << _right << ", (%" << _left << ")" <<endl;
+        cout << "\tmov\t" << _right << ", (" << _left << ")" <<endl;
 
     }
     else {
       if(_left->type().size() == 1)
-          cout << "\tmovb\t%" << _right->_register->name(1) << ", %" << _left << endl;
+          cout << "\tmovb\t" << _right->_register->name(1) << ", " << _left << endl;
       else if(_left->type().size() == 4)
-      cout << "\tmovl\t%" << _right->_register->name(4) << ", %" << _left << endl;
+      cout << "\tmovl\t" << _right->_register->name(4) << ", " << _left << endl;
       else
-      cout << "\tmov\t%" << _right << ", %" << _left <<endl;
+      cout << "\tmov\t" << _right << ", " << _left <<endl;
     }
 
     assign(_right, _left->_register);
