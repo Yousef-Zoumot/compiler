@@ -179,7 +179,7 @@ class Dereference : public Unary {
 public:
     Dereference(Expression *expr, const Type &type);
     virtual void generate();
-    // virtual void generate(bool &indirection);
+    virtual void generate(bool &indirection);
 };
 
 
