@@ -503,7 +503,7 @@ void Return::generate()
 {
   _expr->generate();
   load(_expr, rax);
-  cout << "\tjmp\t" << global_prefix << _id->name() << ":" << endl;
+  // cout << "\tjmp\t" << global_prefix << _id->name() << ":" << endl;
 }
 /*
  * Function:	suffix (private)
