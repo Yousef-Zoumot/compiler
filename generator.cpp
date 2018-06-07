@@ -118,6 +118,16 @@ Register * getreg()
   return registers[0];
 }
 
+void Expression::generate(bool &indirect){
+	indirect = false;
+	generate();
+}
+void Dereference::generate(bool &indirect){
+	indirect = true;
+	_expr->generate();
+	_operand = _expr->_operand;
+}
+
 void Expression::test(const Label &label, bool ifTrue)
 {
   generate();
@@ -646,10 +656,57 @@ void Call::generate()
 
 void Assignment::generate()
 {
-    _left->generate();
+    bool indirection;
+    _left->generate(indirection);
     _right->generate();
-    cout << "\tmovl\t" << _right << ", " << _left << endl;
+
+    if(_left->_register == nullptr)
+      load(_left , getreg());
+    if(_right->_register == nullptr)
+      load(_right , getreg());
+
+    // cout << "\tmovl\t" << _right << ", " << _left << endl;
+
+    if(indirection) { //*p = expr
+
+        if(_left->type().size() == 1)
+            cout << "\tmovb\t%" << _right->_register->name(1) << ", (%" << _left << ")" << endl;
+        else if(_left->type().size() == 4)
+        cout << "\tmovl\t%" << _right->_register->name(4) << ", (%" << _left << ")" << endl;
+        else
+        cout << "\tmov\t%" << _right << ", (%" << _left << ")" <<endl;
+
+    }
+    else {
+      if(_left->type().size() == 1)
+          cout << "\tmovb\t%" << _right->_register->name(1) << ", %" << _left << endl;
+      else if(_left->type().size() == 4)
+      cout << "\tmovl\t%" << _right->_register->name(4) << ", %" << _left << endl;
+      else
+      cout << "\tmov\t%" << _right << ", %" << _left <<endl;
+    }
 }
+
+
+// {
+//     bool indirect;
+//     _right->generate();
+//     _left->generate(indirect);
+//     cout << "\tmovl\t" << _right << " , %eax" << endl;
+//     if(indirect) { //*p = expr
+//         cout << "\tmovl\t" << _left << " , %ecx" << endl;
+//         if(_left->type().size() == 1)
+//             cout << "\tmovb\t %al, (%ecx)" <<endl;
+//         else
+//             cout << "\tmovl\t %eax, (%ecx)" << endl;
+//     }
+//     else {
+//         if(_left->type().size() == 1)
+//             cout << "\tmovb\t %al, " << _left << endl;
+//         else
+//             cout << "\tmovl\t %eax, " << _left << endl;
+//     }
+// }
 
 
 /*

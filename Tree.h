@@ -75,7 +75,7 @@ public:
     bool lvalue() const;
     // virtual void generate();
     virtual void test(const Label &label, bool ifTrue);
-    //virtual void generate(bool &indirection);
+    virtual void generate(bool &indirection);
 };
 
 
