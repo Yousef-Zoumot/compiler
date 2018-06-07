@@ -73,7 +73,7 @@ public:
 
     const Type &type() const;
     bool lvalue() const;
-    // virtual void generate();
+    virtual void generate();
     virtual void test(const Label &label, bool ifTrue);
     virtual void generate(bool &indirection);
 };
