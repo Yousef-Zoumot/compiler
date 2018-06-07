@@ -654,12 +654,12 @@ void Call::generate()
 	cout << "\taddq\t$" << bytesPushed << ", %rsp" << endl;
 
   if(this->type().size() == 1){
-    cout << "\ttmovb\t%al, " << this->_register << endl;
+    cout << "\ttmovb\t%al, " << this << endl;
   } else if(this->type().size() == 4){
-    cout << "\tmovl\t%eax, " << this->_register << endl;
+    cout << "\tmovl\t%eax, " << this << endl;
   }
   else
-    cout << "\tmov\t%rax, " << this->_register << endl;
+    cout << "\tmov\t%rax, " << this << endl;
 
 
 }
