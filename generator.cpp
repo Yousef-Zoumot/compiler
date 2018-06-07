@@ -343,8 +343,8 @@ void Not::generate()
     load(_expr, getreg());
 
   cout << "\tcmpl\t$0, " << _expr << endl;
-  cout << "\tsete\t" << _expr->_register->name(1) << endl;
-  cout << "\tmovzbl\t" << _expr->_register->name(1) << ", " << _expr->_register->name(4) << endl;
+  cout << "\tsete\t%" << _expr->_register->name(1) << endl;
+  cout << "\tmovzbl\t%" << _expr->_register->name(1) << ", %" << _expr->_register->name(4) << endl;
 
   assign(this, _expr->_register);
 
@@ -385,21 +385,25 @@ void LogicalAnd::generate()
   _left->generate();
   _right->generate();
 
+  if(_left->_register == nullptr)
+    load(_left, getreg());
+
   Label label;
   stringstream ss;
   ss << label;
 
-  cout << "\tmov\t" << _left << ", %rax" << endl;
-  cout << "\tcmp\t" << "$0, %rax" << endl;
+  // cout << "\tmov\t" << _left << ", %rax" << endl;
+  cout << "\tcmp\t" << "$0, %" << _left << endl;
   cout << "je\t" << label << ":" << endl;
 
-  cout << "\tmov\t" << _right << ", %rax" << endl;
-  cout << "\tcmp\t" << "$0, %rax" << endl;
+  cout << "\tmov\t" << _right << ", %" << _left << endl;
+  cout << "\tcmp\t" << "$0, %" << _left << endl;
   cout << label << ":" << endl;
-  cout << "\tsetne\t" << "%al" << endl;
-  cout << "\tmovzbl\t" << "%al, %eax" << endl;
-  cout << "\tmov\t" << "%eax, " << ? << endl;
+  cout << "\tsetne\t" << "%" << _left->_register->name(1) << endl;
+  cout << "\tmovzbl\t%" << _expr->_register->name(1) << ", %" << _expr->_register->name(4) << endl;
+  // cout << "\tmov\t" << "%eax, " << ? << endl;
 
+  assign(this, _left->_register);
 }
 
 
