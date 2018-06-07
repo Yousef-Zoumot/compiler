@@ -388,20 +388,55 @@ void LogicalAnd::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  Label label;
+  Label label1, label2;
   stringstream ss;
-  ss << label;
+  ss << label1;
+  ss << label2;
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
   cout << "\tcmp\t" << "$0, %" << _left << endl;
-  cout << "je\t" << label << ":" << endl;
+  cout << "je\t." << label2 << endl;
 
   cout << "\tmov\t" << _right << ", %" << _left << endl;
   cout << "\tcmp\t" << "$0, %" << _left << endl;
-  cout << label << ":" << endl;
-  cout << "\tsetne\t" << "%" << _left->_register->name(1) << endl;
-  cout << "\tmovzbl\t%" << _left->_register->name(1) << ", %" << _left->_register->name(4) << endl;
-  // cout << "\tmov\t" << "%eax, " << ? << endl;
+  cout << "\tje\t." << label2 << endl;
+  cout << "\tjmp\t." << label1 << endl;
+  cout << label2 << ":" << endl;
+  cout << "\tmov\t$0, " << _left << endl;
+  cout << label1 << ":" << endl;
+  cout << "\tmov\t$1, " << _left << endl;
+
+  assign(this, _left->_register);
+
+}
+
+
+void LogicalOr::generate()
+{
+  _left->generate();
+  _right->generate();
+
+  if(_left->_register == nullptr)
+    load(_left, getreg());
+
+  Label label1, label2;
+  stringstream ss;
+  ss << label1;
+  ss << label2;
+
+  // cout << "\tmov\t" << _left << ", %rax" << endl;
+  cout << "\tcmp\t" << "$0, %" << _left << endl;
+  cout << "jne\t." << label2 << endl;
+
+  cout << "\tmov\t" << _right << ", %" << _left << endl;
+  cout << "\tcmp\t" << "$0, %" << _left << endl;
+  cout << "\tjne\t." << label2 << endl;
+  cout << "\tmov\t$0, " << _left << endl;
+  cout << "\tjmp\t." << label1 << endl;
+  cout << label2 << ":" << endl;
+  cout << "\tmov\t$1, " << _left << endl;
+
+  cout << label1 << ":" << endl;
 
   assign(this, _left->_register);
 }
