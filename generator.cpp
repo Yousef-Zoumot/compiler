@@ -120,7 +120,7 @@ Register * getreg()
 
 void Expression::generate(){
   cout << "oops" << endl;
-	generate();
+	// generate();
 }
 
 void Expression::generate(bool &indirect){
