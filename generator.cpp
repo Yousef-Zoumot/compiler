@@ -253,7 +253,7 @@ void Add::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tadd\t" << _right << ", " << _left << endl;
+  cout << "\tadd\t" << _right << ", " << _left->_register << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -267,7 +267,7 @@ void Subtract::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tsub\t" << _right << ", " << _left << endl;
+  cout << "\tsub\t" << _right << ", " << _left->_register << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -281,7 +281,7 @@ void Multiply::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\timul\t" << _right << ", " << _left << endl;
+  cout << "\timul\t" << _right << ", " << _left->_register << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -303,7 +303,7 @@ void Divide::generate()
   if(_right->_register == nullptr)
     load(_right, getreg());
 
-  cout << "\tidiv\t" << _right << endl;
+  cout << "\tidiv\t" << _right->_register << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -320,7 +320,7 @@ void Remainder::generate()
   if(_right->_register == nullptr)
     load(_right, getreg());
 
-  cout << "\tidiv\t" << _right << endl;
+  cout << "\tidiv\t" << _right->_register << endl;
 
   assign(_right, nullptr);
   assign(this, rdx);
@@ -337,7 +337,7 @@ void Negate::generate()
   if(_expr->_register == nullptr)
     load(_expr, getreg());
 
-  cout << "\tneg\t" << _expr << endl;
+  cout << "\tneg\t" << _expr->_register << endl;
 
   assign(this, _expr->_register);
 
@@ -389,7 +389,7 @@ void Address::generate()
   if(_expr->_register == nullptr)
     load(_expr, getreg());
 
-  cout << "\tleaq\t" << _expr << ", %rax" << endl;
+  cout << "\tleaq\t" << _expr->_register << ", %rax" << endl;
   // cout << "\tmovq\t" << "%rax, " << ? << endl;
 
   assign(this, _expr->_register);
@@ -412,7 +412,7 @@ void LogicalAnd::generate()
   cout << "\tcmp\t" << "$0, " << _left->_register << endl;
   cout << "je\t" << label2 << endl;
 
-  cout << "\tmov\t" << _right << ", " << _left->_register << endl;
+  cout << "\tmov\t" << _right->_register << ", " << _left->_register << endl;
   cout << "\tcmp\t" << "$0, " << _left->_register << endl;
   cout << "\tje\t" << label2 << endl;
   cout << "\tjmp\t" << label1 << endl;
@@ -443,7 +443,7 @@ void LogicalOr::generate()
   cout << "\tcmp\t" << "$0, " << _left->_register << endl;
   cout << "jne\t" << label2 << endl;
 
-  cout << "\tmov\t" << _right << ", " << _left->_register << endl;
+  cout << "\tmov\t" << _right->_register << ", " << _left->_register << endl;
   cout << "\tcmp\t" << "$0, " << _left->_register << endl;
   cout << "\tjne\t" << label2 << endl;
   cout << "\tmov\t$0, " << _left->_register << endl;
