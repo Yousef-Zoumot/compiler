@@ -87,7 +87,7 @@ protected:
     Binary(Expression *left, Expression *right, const Type &type);
 //
 public:
-    virtual void generate();
+    // virtual void generate();
 };
 
 
@@ -99,7 +99,7 @@ protected:
     Unary(Expression *expr, const Type &type);
 //
 public:
-    virtual void generate();
+    // virtual void generate();
 };
 
 
@@ -111,7 +111,7 @@ class String : public Expression {
 public:
     String(const string &value);
     const string &value() const;
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -198,7 +198,7 @@ public:
 class Cast : public Unary {
 public:
     Cast(const Type &type, Expression *expr);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
@@ -351,7 +351,7 @@ class Return : public Statement {
 
 public:
     Return(Expression *expr);
-    virtual void generate();
+    // virtual void generate();
 
 };
 
