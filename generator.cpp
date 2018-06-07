@@ -395,12 +395,12 @@ void LogicalAnd::generate()
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
   cout << "\tcmp\t" << "$0, %" << _left << endl;
-  cout << "je\t." << label2 << endl;
+  cout << "je\t" << label2 << endl;
 
   cout << "\tmov\t" << _right << ", %" << _left << endl;
   cout << "\tcmp\t" << "$0, %" << _left << endl;
-  cout << "\tje\t." << label2 << endl;
-  cout << "\tjmp\t." << label1 << endl;
+  cout << "\tje\t" << label2 << endl;
+  cout << "\tjmp\t" << label1 << endl;
   cout << label2 << ":" << endl;
   cout << "\tmov\t$0, " << _left << endl;
   cout << label1 << ":" << endl;
@@ -426,13 +426,13 @@ void LogicalOr::generate()
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
   cout << "\tcmp\t" << "$0, %" << _left << endl;
-  cout << "jne\t." << label2 << endl;
+  cout << "jne\t" << label2 << endl;
 
   cout << "\tmov\t" << _right << ", %" << _left << endl;
   cout << "\tcmp\t" << "$0, %" << _left << endl;
-  cout << "\tjne\t." << label2 << endl;
+  cout << "\tjne\t" << label2 << endl;
   cout << "\tmov\t$0, " << _left << endl;
-  cout << "\tjmp\t." << label1 << endl;
+  cout << "\tjmp\t" << label1 << endl;
   cout << label2 << ":" << endl;
   cout << "\tmov\t$1, " << _left << endl;
 
@@ -441,6 +441,20 @@ void LogicalOr::generate()
   assign(this, _left->_register);
 }
 
+void If::generate()
+{
+  Label skip, exit;
+
+  _expr->test(skip, false);
+  _thenStmt->generate();
+  cout << "\tjmp\t" << exit << endl;
+  release();
+
+  cout << skip << ":" << endl;
+  _elseStmt->generate();
+  release();
+  cout << exit << ":" << endl;
+}
 
 
 void While::generate()
