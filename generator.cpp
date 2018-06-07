@@ -140,7 +140,7 @@ void Expression::test(const Label &label, bool ifTrue)
   if(_register == nullptr)
     load(this, getreg());
 
-  cout << "\tcmp\t$0, " << this << endl;
+  cout << "\tcmp\t$0, " << this->_register << endl;
   cout << (ifTrue ? "\tjne\t" : "\tje\t") << label << endl;
 
   assign(this, nullptr);
