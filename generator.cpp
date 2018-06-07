@@ -467,11 +467,11 @@ void If::generate()
   _thenStmt->generate();
   cout << "\tjmp\t" << exit1 << endl;
   // release();
-
-  cout << skip << ":" << endl;
-  _elseStmt->generate();
-  cout << exit1 << ":" << endl;
-
+  if(_elseStmt != nullptr){
+    cout << skip << ":" << endl;
+    _elseStmt->generate();
+    cout << exit1 << ":" << endl;
+  }
   release();
 }
 
