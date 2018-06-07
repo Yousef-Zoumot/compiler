@@ -192,7 +192,7 @@ void compare(Expression * _left, Expression * _right, Expression * this_thing, c
     load(_left, getreg());
 
   cout << "\tcmp\t" << _right << ", " << _left << endl;
-  cout << "\t" << operation << "\t" << _left->_register->name(1) << endl; // set variable
+  cout << "\t" << operation << "\t" << _left->_register->name(1) << endl; // set variable ? shouldn't the name be 4?
   cout << "\tmovzbl\t" << _left->_register->name(1) << ", " << _left->_register->name(4) << endl;
 
   assign(_right, nullptr);
@@ -310,49 +310,83 @@ void Remainder::generate()
   assign(_right, nullptr);
   assign(this, rdx);
 }
-//
-// void Negate::generate()
-// {
-//   // _expr->generate();
-//   //
-//   // cout << "\tmovl\t" << _expr << ", %eax" << endl;
-//   // cout << "\tnegl\t" << "%eax" << endl;
-//   // cout << "\taddl\t" << ? << endl;
-//
-//   // _expr->generate();
-//
-//
-// }
-//
-// void Not::generate()
-// {
-//   _expr->generate();
-//
-//
-//   cout << "\tmovl\t" << _expr << ", %eax" << endl;
-//   cout << "\tcmpl\t" << "$0, %eax" << endl;
-//   cout << "\tsete %al" << endl;
-//   cout << "\tmovzbl %al, %eax" << endl;
-//
-// }
-//
-// void Dereference::generate()
-// {
-//   _expr->generate();
-//
-//   cout <<"\tmovl\t" << _expr << ", %rax" << endl;
-//   cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "\t(%rax), %rax" << endl;
-//   cout << "\tmovl\t" << "%rax, " << ? << endl;
-// }
-//
-// void Address::generate()
-// {
-//   _expr->generate();
-//
-//   cout << "\tleal\t" << _expr << ", %rax" << endl;
-//   cout << "\tmovl\t" << "%rax, " << ? << endl;
-// }
-//
+
+void Negate::generate()
+{
+  // _expr->generate();
+  //
+  // cout << "\tmovl\t" << _expr << ", %eax" << endl;
+  // cout << "\tnegl\t" << "%eax" << endl;
+  // cout << "\taddl\t" << ? << endl;
+
+  _expr->generate();
+
+  if(_expr->_register == nullptr)
+    load(_expr, getreg());
+
+  cout << "\tneg\t" << _expr << endl;
+
+  assign(this, _expr->_register);
+
+
+
+}
+
+void Not::generate()
+{
+  // _expr->generate();
+  //
+  //
+  // cout << "\tmovl\t" << _expr << ", %eax" << endl;
+  // cout << "\tcmpl\t" << "$0, %eax" << endl;
+  // cout << "\tsete %al" << endl;
+  // cout << "\tmovzbl %al, %eax" << endl;
+
+  _expr->generate();
+
+  if(_expr->_register == nullptr)
+    load(_expr, getreg());
+
+  cout << "\tcmpl\t$0, " << _expr << endl;
+  cout << "\tsete\t" << _expr->_register->name(1) << endl;
+  cout << "\tmovzbl\t" << _expr->_register->name(1) << ", " << _expr->_register->name(4) << endl;
+
+  assign(this, _expr->_register);
+
+}
+
+void Dereference::generate()
+{
+  // _expr->generate();
+  //
+  // cout <<"\tmovl\t" << _expr << ", %rax" << endl;
+  // cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "\t(%rax), %rax" << endl;
+  // cout << "\tmovl\t" << "%rax, " << ? << endl;
+
+  _expr->generate();
+
+  if(_expr->_register == nullptr)
+    load(_expr, getreg());
+
+  cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "(%" << _expr->_register << "), %" << _expr->_register << endl;
+
+  assign(this, _expr->_register);
+
+}
+
+void Address::generate()
+{
+  _expr->generate();
+
+  if(_expr->_register == nullptr)
+    load(_expr, getreg());
+
+  cout << "\tleaq\t" << _expr << ", %rax" << endl;
+  // cout << "\tmovq\t" << "%rax, " << ? << endl;
+
+  assign(this, _expr->_register);
+}
+
 // void LogicalAnd::generate()
 // {
 //   _left->generate();
