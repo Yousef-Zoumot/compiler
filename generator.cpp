@@ -400,6 +400,8 @@ void LogicalAnd::generate()
   _left->generate();
   _right->generate();
 
+  _expr->generate();
+
   if(_left->_register == nullptr)
     load(_left, getreg());
 
@@ -430,6 +432,9 @@ void LogicalOr::generate()
 {
   _left->generate();
   _right->generate();
+
+  _expr->generate();
+
 
   if(_left->_register == nullptr)
     load(_left, getreg());
