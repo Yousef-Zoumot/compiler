@@ -119,7 +119,7 @@ Register * getreg()
 }
 
 void Expression::generate(){
-
+  cout << "oops" << endl;
 	generate();
 }
 
@@ -409,17 +409,17 @@ void LogicalAnd::generate()
   ss << label2;
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
-  cout << "\tcmp\t" << "$0, %" << _left << endl;
+  cout << "\tcmp\t" << "$0, " << _left->_register << endl;
   cout << "je\t" << label2 << endl;
 
-  cout << "\tmov\t" << _right << ", %" << _left << endl;
-  cout << "\tcmp\t" << "$0, %" << _left << endl;
+  cout << "\tmov\t" << _right << ", " << _left->_register << endl;
+  cout << "\tcmp\t" << "$0, " << _left->_register << endl;
   cout << "\tje\t" << label2 << endl;
   cout << "\tjmp\t" << label1 << endl;
   cout << label2 << ":" << endl;
-  cout << "\tmov\t$0, " << _left << endl;
+  cout << "\tmov\t$0, " << _left->_register << endl;
   cout << label1 << ":" << endl;
-  cout << "\tmov\t$1, " << _left << endl;
+  cout << "\tmov\t$1, " << _left->_register << endl;
 
   assign(this, _left->_register);
 
@@ -440,16 +440,16 @@ void LogicalOr::generate()
   ss << label2;
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
-  cout << "\tcmp\t" << "$0, %" << _left << endl;
+  cout << "\tcmp\t" << "$0, " << _left->_register << endl;
   cout << "jne\t" << label2 << endl;
 
-  cout << "\tmov\t" << _right << ", %" << _left << endl;
-  cout << "\tcmp\t" << "$0, %" << _left << endl;
+  cout << "\tmov\t" << _right << ", " << _left->_register << endl;
+  cout << "\tcmp\t" << "$0, " << _left->_register << endl;
   cout << "\tjne\t" << label2 << endl;
-  cout << "\tmov\t$0, " << _left << endl;
+  cout << "\tmov\t$0, " << _left->_register << endl;
   cout << "\tjmp\t" << label1 << endl;
   cout << label2 << ":" << endl;
-  cout << "\tmov\t$1, " << _left << endl;
+  cout << "\tmov\t$1, " << _left->_register << endl;
 
   cout << label1 << ":" << endl;
 
