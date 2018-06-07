@@ -470,8 +470,9 @@ void If::generate()
 
   cout << skip << ":" << endl;
   _elseStmt->generate();
-  release();
   cout << exit1 << ":" << endl;
+
+  release();
 }
 
 
