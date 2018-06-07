@@ -400,7 +400,7 @@ void LogicalAnd::generate()
   cout << "\tcmp\t" << "$0, %" << _left << endl;
   cout << label << ":" << endl;
   cout << "\tsetne\t" << "%" << _left->_register->name(1) << endl;
-  cout << "\tmovzbl\t%" << _expr->_register->name(1) << ", %" << _expr->_register->name(4) << endl;
+  cout << "\tmovzbl\t%" << _left->_register->name(1) << ", %" << _left->_register->name(4) << endl;
   // cout << "\tmov\t" << "%eax, " << ? << endl;
 
   assign(this, _left->_register);
