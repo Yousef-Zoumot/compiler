@@ -400,8 +400,6 @@ void LogicalAnd::generate()
   _left->generate();
   _right->generate();
 
-  _expr->generate();
-
   if(_left->_register == nullptr)
     load(_left, getreg());
 
@@ -432,8 +430,6 @@ void LogicalOr::generate()
 {
   _left->generate();
   _right->generate();
-
-  _expr->generate();
 
 
   if(_left->_register == nullptr)
@@ -502,6 +498,13 @@ void While::generate()
   cout << exit1 << ":" << endl;
 }
 
+
+void Return::generate()
+{
+  _expr->generate();
+  load(_expr, rax);
+  cout << "\tjmp\t" << global_prefix << _id->name() << ":" << endl;
+}
 /*
  * Function:	suffix (private)
  *

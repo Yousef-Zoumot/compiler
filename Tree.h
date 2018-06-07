@@ -351,7 +351,7 @@ class Return : public Statement {
 
 public:
     Return(Expression *expr);
-    // virtual void generate();
+    virtual void generate();
 
 };
 
