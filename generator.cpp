@@ -690,6 +690,8 @@ void Assignment::generate()
       else
       cout << "\tmov\t%" << _right << ", %" << _left <<endl;
     }
+
+    assign(this, _left->_register);
 }
 
 
