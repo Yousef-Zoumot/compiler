@@ -285,7 +285,10 @@ void Divide::generate()
   load(_left, rax);
   load(nullptr, rdx);
 
-  cout << "\tidiv\t" <<  << endl;
+  if(_right->_register == nullptr)
+    load(_right, getreg());
+
+  cout << "\tidiv\t" << _right << endl;
 
   assign(_right, nullptr);
   assign(this, _left->register);
@@ -296,22 +299,28 @@ void Remainder::generate()
   _left->generate();
   _right->generate();
 
-  if(_left->_register == nullptr)
-    load(_left, getreg());
+  load(_left, rax);
+  load(nullptr, rdx);
 
-  cout << "\tidiv\t" << "%rcx" << endl;
+  if(_right->_register == nullptr)
+    load(_right, getreg());
+
+  cout << "\tidiv\t" << _right << endl;
 
   assign(_right, nullptr);
-  assign(this, _left->_register);
+  assign(this, rdx);
 }
 //
 // void Negate::generate()
 // {
-//   _expr->generate();
+//   // _expr->generate();
+//   //
+//   // cout << "\tmovl\t" << _expr << ", %eax" << endl;
+//   // cout << "\tnegl\t" << "%eax" << endl;
+//   // cout << "\taddl\t" << ? << endl;
 //
-//   cout << "\tmovl\t" << _expr << ", %eax" << endl;
-//   cout << "\tnegl\t" << "%eax" << endl;
-//   cout << "\taddl\t" << ? << endl;
+//   // _expr->generate();
+//
 //
 // }
 //
