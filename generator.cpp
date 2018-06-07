@@ -458,6 +458,8 @@ void LogicalOr::generate()
 
 void If::generate()
 {
+  _expr->generate();
+
   Label skip, exit1;
   stringstream ss;
   ss << skip;
@@ -478,6 +480,8 @@ void If::generate()
 
 void While::generate()
 {
+  _expr->generate();
+
   Label loop, exit1;
   stringstream ss;
   ss << loop;
