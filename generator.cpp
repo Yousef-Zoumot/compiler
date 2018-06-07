@@ -291,7 +291,7 @@ void Divide::generate()
   cout << "\tidiv\t" << _right << endl;
 
   assign(_right, nullptr);
-  assign(this, _left->register);
+  assign(this, _left->_register);
 }
 
 void Remainder::generate()
