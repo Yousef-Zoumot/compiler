@@ -52,8 +52,8 @@ public:
 /* Any type of statement: return, while, if, block, and expression */
 
 class Statement : public Node {
-protected:
-    Statement() {}
+// protected:
+//     Statement() {}
   public:
     virtual void generate();
 };
