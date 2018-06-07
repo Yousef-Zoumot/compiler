@@ -458,32 +458,38 @@ void LogicalOr::generate()
 
 void If::generate()
 {
-  Label skip, exit;
+  Label skip, exit1;
+  stringstream ss;
+  ss << skip;
+  ss << exit1;
 
   _expr->test(skip, false);
   _thenStmt->generate();
-  cout << "\tjmp\t" << exit << endl;
+  cout << "\tjmp\t" << exit1 << endl;
   release();
 
   cout << skip << ":" << endl;
   _elseStmt->generate();
   release();
-  cout << exit << ":" << endl;
+  cout << exit1 << ":" << endl;
 }
 
 
 void While::generate()
 {
-  Label loop, exit;
+  Label loop, exit1;
+  stringstream ss;
+  ss << loop;
+  ss << exit1;
 
   cout << loop << ":" << endl;
 
-  _expr->test(exit, false);
+  _expr->test(exit1, false);
   _stmt->generate();
   release();
 
   cout << "\tjmp\t" << loop << endl;
-  cout << exit << ":" << endl;
+  cout << exit1 << ":" << endl;
 }
 
 /*
