@@ -118,6 +118,11 @@ Register * getreg()
   return registers[0];
 }
 
+void Expression::generate(){
+
+	generate();
+}
+
 void Expression::generate(bool &indirect){
 	indirect = false;
 	generate();
