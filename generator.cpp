@@ -466,7 +466,7 @@ void If::generate()
   _expr->test(skip, false);
   _thenStmt->generate();
   cout << "\tjmp\t" << exit1 << endl;
-  release();
+  // release();
 
   cout << skip << ":" << endl;
   _elseStmt->generate();
