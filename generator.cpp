@@ -206,7 +206,7 @@ void compare(Expression * _left, Expression * _right, Expression * this_thing, c
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tcmp\t" << _right << ", " << _left << endl;
+  cout << "\tcmp\t" << _right->_register << ", " << _left->_register << endl;
   cout << "\t" << operation << "\t" << _left->_register->name(1) << endl; // set variable ? shouldn't the name be 4?
   cout << "\tmovzbl\t" << _left->_register->name(1) << ", " << _left->_register->name(4) << endl;
 
@@ -357,7 +357,7 @@ void Not::generate()
   if(_expr->_register == nullptr)
     load(_expr, getreg());
 
-  cout << "\tcmpl\t$0, " << _expr << endl;
+  cout << "\tcmpl\t$0, " << _expr->_register << endl;
   cout << "\tsete\t%" << _expr->_register->name(1) << endl;
   cout << "\tmovzbl\t%" << _expr->_register->name(1) << ", %" << _expr->_register->name(4) << endl;
 
