@@ -385,8 +385,13 @@ void Remainder::generate()
   load(_left, rax);
   load(nullptr, rdx);
 
-  if(_right->_register == nullptr)
-    load(_right, getreg());
+  load(_right, getreg());
+
+  if(type().specifier() == CHAR || type().specifier() == INT)
+    cout << "\tcltd\t" << endl;
+
+  else
+    cout << "\tcqto\t" << endl;
 
   cout << "\tidiv\t" << _right->_register << endl;
 
