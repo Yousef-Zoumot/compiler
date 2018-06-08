@@ -422,8 +422,8 @@ void Address::generate()
   if(_expr->_register == nullptr)
     load(_expr, getreg());
 
-  cout << "\tlea\t" << _expr->_register << ", %rax" << endl;
-  // cout << "\tleaq\t" << _expr->_register << ", %rax" << endl;
+  // cout << "\tlea\t" << _expr->_register << ", %rax" << endl;
+  cout << "\tleaq\t" << _expr->_register << ", %rax" << endl;
   // cout << "\tmovq\t" << "%rax, " << ? << endl;
 
   assign(this, _expr->_register);
