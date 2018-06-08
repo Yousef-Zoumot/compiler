@@ -57,6 +57,7 @@ static Register *r11 = new Register("%r11", "%r11d", "%r11b");
 // vector<Register *> registers = {r15, r14, r13, r12, r11, r10, r9, r8, rsp, rbp, rcx, rdx, rsi, rdi, rax};
 
 vector<Register *> registers = {r11, r10, r9, r8, rcx, rdx, rsi, rdi, rax};
+vector<String> StringList;
 
 int temp_offset;
 Label *returnLabel;
@@ -86,6 +87,12 @@ void assignTemp(Expression *expr)
   temp_offset -= expr->type().size();
   ss << temp_offset << "(%rbp)";
   expr->_operand = ss.str();
+}
+
+void String::generate(){
+  Label label = Label();
+  _operand = ".L" + to_string(label.number());
+  StringList.push_back(*this);
 }
 
 void printBegin(const std::string &functionName){
@@ -163,10 +170,11 @@ void Expression::generate(bool &indirect){
 }
 void Dereference::generate(bool &indirect){
   printBegin("DEREFERENCE");
-	indirect = true;
-	_expr->generate();
-	_operand = _expr->_operand;
-  printEnd("DEREFERENCE");
+	//indirect = true;
+	   _expr->generate();
+	   _operand = _expr->_operand;
+    printEnd("DEREFERENCE");
+
 }
 
 void Expression::test(const Label &label, bool ifTrue)
@@ -897,4 +905,7 @@ void generateGlobals(Scope *scope)
 	    cout << "\t.comm\t" << global_prefix << symbols[i]->name() << ", ";
 	    cout << symbols[i]->type().size() << endl;
 	}
-}
+
+  for(unsigned i = 0; i < StringList.size(); i++){
+    cout << StringList[i]._operand << ":\t" << ".asciz\t" << StringList[i].value() << endl;  }
+  }

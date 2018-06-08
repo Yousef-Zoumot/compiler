@@ -75,7 +75,7 @@ public:
     bool lvalue() const;
     virtual void generate();
     virtual void test(const Label &label, bool ifTrue);
-    virtual void generate(bool &indirection);
+    virtual Expression *getDereference(){return nullptr;}
 };
 
 
@@ -111,7 +111,7 @@ class String : public Expression {
 public:
     String(const string &value);
     const string &value() const;
-    // virtual void generate();
+    virtual void generate();
 
 };
 
@@ -179,7 +179,7 @@ class Dereference : public Unary {
 public:
     Dereference(Expression *expr, const Type &type);
     virtual void generate();
-    virtual void generate(bool &indirection);
+    virtual Expression *getDereference(){return _expr;}
 };
 
 
