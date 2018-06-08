@@ -623,20 +623,30 @@ void While::generate()
 
   cout << loop << ":" << endl;
 
-
   _expr->generate();
-
-  load(_expr, getreg());
-
-  _expr->test(exit1, false);
+  if(_expr->_register == nullptr)
+    load(_expr, getreg());
+  cout << "\tcmp\t" << "$0" << ',' << _expr << endl;
+  cout << "\tje\t" << exit1 << endl;
   _stmt->generate();
-
   cout << "\tjmp\t" << loop << endl;
+  cout << exit1 << ':' << endl;
 
-  cout << exit1 << ":" << endl;
+  assign(nullptr,_expr->_register);
 
-  assign(nullptr, _expr->_register);
-  release();
+  // _expr->generate();
+  //
+  // load(_expr, getreg());
+  //
+  // _expr->test(exit1, false);
+  // _stmt->generate();
+  //
+  // cout << "\tjmp\t" << loop << endl;
+  //
+  // cout << exit1 << ":" << endl;
+  //
+  // assign(nullptr, _expr->_register);
+  // release();
 
 
   printEnd("WHILE");
