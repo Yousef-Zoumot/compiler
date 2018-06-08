@@ -362,6 +362,12 @@ void Divide::generate()
   if(_right->_register == nullptr)
     load(_right, getreg());
 
+    if(type().specifier() == CHAR || type().specifier() == INT)
+      cout << "\tcltd\t" << endl;
+
+    else
+      cout << "\tcqto\t" << endl;
+
   cout << "\tidiv\t" << _right->_register << endl;
 
   assign(_right, nullptr);
