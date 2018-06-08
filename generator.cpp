@@ -69,6 +69,13 @@ void assignTemp(Expression *expr)
   expr->_operand = ss.str();
 }
 
+void printBegin(const std::string &functionName){
+  cout << "# Begin " << functionName << endl;
+}
+void printEnd(const std::string &functionName){
+  cout << "# End " << functionName << endl;
+}
+
 void assign(Expression *expr, Register *reg)
 {
   if(expr != nullptr){
@@ -88,6 +95,7 @@ void assign(Expression *expr, Register *reg)
 
 void load(Expression *expr, Register *reg)
 {
+  printBegin("Load");
   if(reg->_node != expr){
     // assert(reg->_node == nullptr);
 
@@ -107,6 +115,7 @@ void load(Expression *expr, Register *reg)
     }
     assign(expr, reg);
   }
+  printEnd("Load");
 }
 
 Register * getreg()
@@ -125,17 +134,23 @@ void Expression::generate(){
 }
 
 void Expression::generate(bool &indirect){
+  printBegin("Expr1");
 	indirect = false;
 	generate();
+
+  printEnd("Expr1");
 }
 void Dereference::generate(bool &indirect){
+  printBegin("Dereference");
 	indirect = true;
 	_expr->generate();
 	_operand = _expr->_operand;
+  printEnd("Dereference");
 }
 
 void Expression::test(const Label &label, bool ifTrue)
 {
+  printBegin("ExprTest");
   generate();
 
   if(_register == nullptr)
@@ -145,12 +160,15 @@ void Expression::test(const Label &label, bool ifTrue)
   cout << (ifTrue ? "\tjne\t" : "\tje\t") << label << endl;
 
   assign(this, nullptr);
+  printEnd("ExprTest");
 }
 
 void release()
 {
+  printBegin("release");
   for(unsigned i = 0; i < registers.size(); i++)
     assign(nullptr, registers[i]);
+  printEnd("release");
 }
 
 // for(unsigned i = 0; i < _args.size(); i++)
@@ -201,6 +219,7 @@ void release()
 
 
 void compare(Expression * _left, Expression * _right, Expression * this_thing, const std::string &operation){
+  printBegin("compare");
   _left->generate();
   _right->generate();
 
@@ -213,6 +232,7 @@ void compare(Expression * _left, Expression * _right, Expression * this_thing, c
 
   assign(_right, nullptr);
   assign(this_thing, _left->_register);
+  printEnd("compare");
 }
 
 void Equal::generate()
@@ -248,6 +268,7 @@ void GreaterOrEqual::generate()
 
 void Add::generate()
 {
+  printBegin("Add");
   _left->generate();
   _right->generate();
 
@@ -258,10 +279,12 @@ void Add::generate()
 
   assign(_right, nullptr);
   assign(this, _left->_register);
+  printEnd("Add");
 }
 
 void Subtract::generate()
 {
+  printBegin("Subtract");
   _left->generate();
   _right->generate();
 
@@ -272,10 +295,12 @@ void Subtract::generate()
 
   assign(_right, nullptr);
   assign(this, _left->_register);
+  printEnd("Subtract");
 }
 
 void Multiply::generate()
 {
+  printBegin("Multiply");
   _left->generate();
   _right->generate();
 
@@ -286,6 +311,7 @@ void Multiply::generate()
 
   assign(_right, nullptr);
   assign(this, _left->_register);
+  printEnd("Multiply");
 }
 // cout << "\tmov\t" << _left << ", %rax" << endl;
 // cout << "\tmov\t" << _right << ", %rcx" << endl;
@@ -295,6 +321,7 @@ void Multiply::generate()
 
 void Divide::generate()
 {
+  printBegin("Divide");
   _left->generate();
   _right->generate();
 
@@ -308,10 +335,12 @@ void Divide::generate()
 
   assign(_right, nullptr);
   assign(this, _left->_register);
+  printEnd("Divide");
 }
 
 void Remainder::generate()
 {
+  printBegin("Remainder");
   _left->generate();
   _right->generate();
 
@@ -325,6 +354,7 @@ void Remainder::generate()
 
   assign(_right, nullptr);
   assign(this, rdx);
+  printEnd("Remainder");
 }
 
 void Negate::generate()
@@ -332,7 +362,7 @@ void Negate::generate()
   // cout << "\tmovl\t" << _expr << ", %eax" << endl;
   // cout << "\tnegl\t" << "%eax" << endl;
   // cout << "\taddl\t" << ? << endl;
-
+  printBegin("Negate");
   _expr->generate();
 
   if(_expr->_register == nullptr)
@@ -342,7 +372,7 @@ void Negate::generate()
 
   assign(this, _expr->_register);
 
-
+  printEnd("Negate");
 
 }
 
@@ -352,7 +382,7 @@ void Not::generate()
   // cout << "\tcmpl\t" << "$0, %eax" << endl;
   // cout << "\tsete %al" << endl;
   // cout << "\tmovzbl %al, %eax" << endl;
-
+  printBegin("Not");
   _expr->generate();
 
   if(_expr->_register == nullptr)
@@ -363,7 +393,7 @@ void Not::generate()
   cout << "\tmovzbl\t%" << _expr->_register->name(1) << ", %" << _expr->_register->name(4) << endl;
 
   assign(this, _expr->_register);
-
+  printEnd("Not");
 }
 
 void Dereference::generate()
@@ -371,7 +401,7 @@ void Dereference::generate()
   // cout <<"\tmovl\t" << _expr << ", %rax" << endl;
   // cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "\t(%rax), %rax" << endl;
   // cout << "\tmovl\t" << "%rax, " << ? << endl;
-
+  printBegin("Dereference Generate");
   _expr->generate();
 
   if(_expr->_register == nullptr)
@@ -380,11 +410,12 @@ void Dereference::generate()
   cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "(" << _expr->_register << "), " << _expr->_register << endl;
 
   assign(this, _expr->_register);
-
+  printEnd("Dereference Generate");
 }
 
 void Address::generate()
 {
+  printBegin("Address");
   _expr->generate();
 
   if(_expr->_register == nullptr)
@@ -394,10 +425,12 @@ void Address::generate()
   // cout << "\tmovq\t" << "%rax, " << ? << endl;
 
   assign(this, _expr->_register);
+  printEnd("Address");
 }
 
 void LogicalAnd::generate()
 {
+  printBegin("Logical AND");
   _left->generate();
   _right->generate();
 
@@ -423,12 +456,13 @@ void LogicalAnd::generate()
   cout << "\tmov\t$1, " << _left->_register << endl;
 
   assign(this, _left->_register);
-
+  printEnd("Logical AND");
 }
 
 
 void LogicalOr::generate()
 {
+  printBegin("Logical OR");
   _left->generate();
   _right->generate();
 
@@ -456,10 +490,12 @@ void LogicalOr::generate()
   cout << label1 << ":" << endl;
 
   assign(this, _left->_register);
+  printEnd("Logical OR");
 }
 
 void If::generate()
 {
+  printBegin("IF");
   _expr->generate();
 
   Label skip, exit1;
@@ -477,11 +513,13 @@ void If::generate()
     cout << exit1 << ":" << endl;
   }
   release();
+  printEnd("IF");
 }
 
 
 void While::generate()
 {
+  printBegin("WHILE");
   _expr->generate();
 
   Label loop, exit1;
@@ -497,14 +535,17 @@ void While::generate()
 
   cout << "\tjmp\t" << loop << endl;
   cout << exit1 << ":" << endl;
+  printEnd("WHILE");
 }
 
 
 void Return::generate()
 {
+  printBegin("RETURN");
   _expr->generate();
   load(_expr, rax);
   cout << "\tjmp\t" << global_prefix << *returnLabel << endl;
+  printEnd("RETURN");
 }
 /*
  * Function:	suffix (private)
@@ -580,6 +621,7 @@ void Number::generate()
 
 void Identifier::generate()
 {
+    printBegin("Identifier");
     stringstream ss;
 
 
@@ -589,6 +631,7 @@ void Identifier::generate()
 	ss << _symbol->_offset << "(%rbp)";
 
     _operand = ss.str();
+    printEnd("Identifier");
 }
 
 
@@ -609,6 +652,7 @@ void Identifier::generate()
 
 void Call::generate()
 {
+    printBegin("CALL");
     unsigned size, bytesPushed = 0;
     assignTemp(this);
 
@@ -675,7 +719,7 @@ void Call::generate()
   else
     cout << "\tmov\t%rax, " << this->_operand << endl;
 
-
+  printEnd("CALL");
 }
 
 
@@ -691,6 +735,7 @@ void Call::generate()
 
 void Assignment::generate()
 {
+    printBegin("Assignment");
     bool indirection;
     _left->generate(indirection);
     _right->generate();
@@ -722,6 +767,7 @@ void Assignment::generate()
     }
 
     assign(_right, _left->_register);
+    printEnd("Assignment");
 }
 
 
@@ -770,6 +816,7 @@ void Block::generate()
 
 void Function::generate()
 {
+    printBegin("FUNCTION");
     int offset = 0;
     unsigned numSpilled = _id->type().parameters()->size();
     const Symbols &symbols = _body->declarations()->symbols();
@@ -824,6 +871,8 @@ void Function::generate()
     }
 
     cout << "\t.globl\t" << global_prefix << _id->name() << endl << endl;
+
+    printEnd("FUNCTION");
 }
 
 
