@@ -753,7 +753,7 @@ void Assignment::generate()
 {
     printBegin("ASSIGNMENT");
     bool indirection;
-    _left->generate(indirection);
+    _left->generate();
     _right->generate();
 
     if(_left->_register == nullptr)
