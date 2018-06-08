@@ -15,6 +15,7 @@
 # include "machine.h"
 # include "Tree.h"
 # include "label.h"
+# include "tokens.h"
 
 using namespace std;
 
