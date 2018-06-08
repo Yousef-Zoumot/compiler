@@ -188,7 +188,7 @@ void Expression::test(const Label &label, bool ifTrue)
   if(_register == nullptr)
     load(this, getreg());
 
-  cout << "\tcmp\t$0, " << this->_register << endl;
+  cout << "\tcmp\t$0, " << this << endl;
   cout << (ifTrue ? "\tjne\t" : "\tje\t") << label << endl;
 
   assign(this, nullptr);
@@ -581,16 +581,31 @@ void If::generate()
   ss << skip;
   ss << exit1;
 
-  _expr->test(skip, false);
-  _thenStmt->generate();
-  cout << "\tjmp\t" << exit1 << endl;
-  // release();
-  cout << skip << ":" << endl;
-  if(_elseStmt != nullptr){
-    // cout << skip << ":" << endl;
-    _elseStmt->generate();
-  }
-  cout << exit1 << ":" << endl;
+  // _expr->test(skip, false);
+  // _thenStmt->generate();
+  // cout << "\tjmp\t" << exit1 << endl;
+  // // release();
+  // cout << skip << ":" << endl;
+  // if(_elseStmt != nullptr){
+  //   // cout << skip << ":" << endl;
+  //   _elseStmt->generate();
+  // }
+  // cout << exit1 << ":" << endl;
+
+  cout << "\tcmp\t" << "$0" << ',' << _expr << endl;
+   if(_elseStmt == nullptr)
+     cout << "\tje\t" << exit1 << endl;
+   else
+     cout << "\tje\t" << skip << endl;
+   _thenStmt->generate();
+   cout << "\tjmp\t" << exit1 << endl;
+   if(_elseStmt != nullptr){
+     cout << skip << ':' << endl;
+     _elseStmt->generate();
+   }
+   cout << exit1 << ':' << endl;
+    assign(nullptr,_expr->_register);
+
 
   release();
   printEnd("IF");
