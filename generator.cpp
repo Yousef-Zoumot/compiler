@@ -376,7 +376,7 @@ void Dereference::generate()
   if(_expr->_register == nullptr)
     load(_expr, getreg());
 
-  cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "(%" << _expr->_register << "), %" << _expr->_register << endl;
+  cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "(" << _expr->_register << "), " << _expr->_register << endl;
 
   assign(this, _expr->_register);
 
