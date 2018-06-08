@@ -625,6 +625,7 @@ void Return::generate()
   _expr->generate();
   load(_expr, rax);
   cout << "\tjmp\t" << global_prefix << *returnLabel << endl;
+  assign(nullptr, rax);
   printEnd("RETURN");
 }
 /*
