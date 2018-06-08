@@ -390,8 +390,8 @@ void Not::generate()
     load(_expr, getreg());
 
   cout << "\tcmpl\t$0, " << _expr->_register << endl;
-  cout << "\tsete\t%" << _expr->_register->name(1) << endl;
-  cout << "\tmovzbl\t%" << _expr->_register->name(1) << ", %" << _expr->_register->name(4) << endl;
+  cout << "\tsete\t" << _expr->_register->name(1) << endl;
+  cout << "\tmovzbl\t" << _expr->_register->name(1) << ", " << _expr->_register->name(4) << endl;
 
   assign(this, _expr->_register);
   printEnd("NOT");
