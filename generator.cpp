@@ -59,6 +59,7 @@ static Register *r11 = new Register("%r11", "%r11d", "%r11b");
 vector<Register *> registers = {r11, r10, r9, r8, rcx, rdx, rsi, rdi, rax};
 
 int temp_offset;
+Label *returnLabel;
 
 void assignTemp(Expression *expr)
 {
@@ -503,7 +504,7 @@ void Return::generate()
 {
   _expr->generate();
   load(_expr, rax);
-  // cout << "\tjmp\t" << global_prefix << _id->name() << ":" << endl;
+  cout << "\tjmp\t" << global_prefix << *returnLabel << endl;
 }
 /*
  * Function:	suffix (private)
@@ -803,8 +804,12 @@ void Function::generate()
     }
 
     temp_offset = offset;
+    returnLabel = new Label;
     _body->generate();
     offset = temp_offset;
+
+    cout << *retLabel << ":" << endl;
+    cout << endl;
 
     cout << "\tmovq\t%rbp, %rsp" << endl;
     cout << "\tpopq\t%rbp" << endl;
