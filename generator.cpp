@@ -21,7 +21,7 @@ using namespace std;
 
 /* This needs to be set to zero if temporaries are placed on the stack. */
 
-# define SIMPLE_PROLOGUE 1
+# define SIMPLE_PROLOGUE 0
 
 
 /* Okay, I admit it ... these are lame, but they work. */
@@ -99,9 +99,10 @@ void load(Expression *expr, Register *reg)
   if(reg->_node != expr){
     // assert(reg->_node == nullptr);
 
-    unsigned size = expr->type().size();
+
 
     if(reg->_node != nullptr){
+      unsigned size = reg->_node->type().size();
       assignTemp(reg->_node);
       cout << "\tmov\t" << reg->name(size);
       cout << ", " << reg->_node->_operand;
