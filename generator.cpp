@@ -600,14 +600,16 @@ void If::generate()
 void While::generate()
 {
   printBegin("WHILE");
-  cout << loop << ":" << endl;
-
-  _expr->generate();
-
+  
   Label loop, exit1;
   stringstream ss;
   ss << loop;
   ss << exit1;
+
+  cout << loop << ":" << endl;
+
+
+  _expr->generate();
 
   _expr->test(exit1, false);
   _stmt->generate();
