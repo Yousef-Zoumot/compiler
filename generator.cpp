@@ -447,16 +447,41 @@ void Dereference::generate()
 void Address::generate()
 {
   printBegin("ADDRESS");
-  _expr->generate();
+  // _expr->generate();
+  //
+  // if(_expr->_register == nullptr)
+  //   load(_expr, getreg());
+  //
+  // // cout << "\tlea\t" << _expr->_register << ", %rax" << endl;
+  // cout << "\tleaq\t" << _expr->_register << ", %rax" << endl;
+  // // cout << "\tmovq\t" << "%rax, " << ? << endl;
+  //
+  // assign(this, _expr->_register);
 
-  if(_expr->_register == nullptr)
-    load(_expr, getreg());
 
-  // cout << "\tlea\t" << _expr->_register << ", %rax" << endl;
-  cout << "\tleaq\t" << _expr->_register << ", %rax" << endl;
-  // cout << "\tmovq\t" << "%rax, " << ? << endl;
 
-  assign(this, _expr->_register);
+
+  if(_expr->getDeref() == nullptr){
+
+   _expr->generate();
+   assign(this,getreg());
+ if(_expr->_register != nullptr)
+   load(nullptr,_expr->_register);
+ cout << "\tlea\t" << _expr << ',' << this << endl;
+ }
+ else{
+    if(_expr->getDeref()->_operand != string()){
+      _operand = _expr->getDeref()->_operand;
+    }
+    else{
+      _expr->getDeref()->generate();
+      _expr = _expr->getDeref();
+      //_operan = _expr->_operand;
+      assign(this,_expr->_register);
+    }
+  }
+
+
   printEnd("ADDRESS");
 }
 
