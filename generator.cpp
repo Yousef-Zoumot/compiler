@@ -600,7 +600,7 @@ void If::generate()
 void While::generate()
 {
   printBegin("WHILE");
-  
+
   Label loop, exit1;
   stringstream ss;
   ss << loop;
@@ -611,12 +611,19 @@ void While::generate()
 
   _expr->generate();
 
+  load(_expr, getreg());
+
   _expr->test(exit1, false);
   _stmt->generate();
-  release();
 
   cout << "\tjmp\t" << loop << endl;
+
   cout << exit1 << ":" << endl;
+
+  assign(nullptr, _expr->_register);
+  release();
+
+
   printEnd("WHILE");
 }
 
