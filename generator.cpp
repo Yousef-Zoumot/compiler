@@ -410,7 +410,7 @@ void LogicalAnd::generate()
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
   cout << "\tcmp\t" << "$0, " << _left->_register << endl;
-  cout << "je\t" << label2 << endl;
+  cout << "\tje\t" << label2 << endl;
 
   cout << "\tmov\t" << _right->_register << ", " << _left->_register << endl;
   cout << "\tcmp\t" << "$0, " << _left->_register << endl;
@@ -442,7 +442,7 @@ void LogicalOr::generate()
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
   cout << "\tcmp\t" << "$0, " << _left->_register << endl;
-  cout << "jne\t" << label2 << endl;
+  cout << "\tjne\t" << label2 << endl;
 
   cout << "\tmov\t" << _right->_register << ", " << _left->_register << endl;
   cout << "\tcmp\t" << "$0, " << _left->_register << endl;
