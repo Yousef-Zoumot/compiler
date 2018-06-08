@@ -723,11 +723,18 @@ void Call::generate()
     for (unsigned i = 0; i < _args.size(); i ++)
 	_args[i]->generate();
 
+  for(unsigned i=0; i<registers.size(); i++) {
+      load(nullptr,registers[i]);
+    }
+
+
 
     /* Adjust the stack if necessary. */
 
     if (_args.size() > NUM_ARGS_IN_REGS) {
 	bytesPushed = align((_args.size() - NUM_ARGS_IN_REGS) * SIZEOF_ARG);
+
+
 
 	if (bytesPushed > 0)
 	    cout << "\tsubq\t$" << bytesPushed << ", %rsp" << endl;
