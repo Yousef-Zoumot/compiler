@@ -61,6 +61,25 @@ vector<Register *> registers = {r11, r10, r9, r8, rcx, rdx, rsi, rdi, rax};
 int temp_offset;
 Label *returnLabel;
 
+/*
+ * Function:	operator << (private)
+ *
+ * Description:	Write an expression to the specified stream.  This function
+ *		first checks to see if the expression is in a register, and
+ *		if not then uses its operand.
+ */
+// QUESTION REFERRING TO SLIDES
+
+static ostream &operator <<(ostream &ostr, Expression *expr)
+{
+    if (expr->_register != nullptr)
+	return ostr << expr->_register;
+  // unsigned size = expr->type().size();
+  // return ostr << expr->register->name(size);
+
+    return ostr << expr->_operand;
+}
+
 void assignTemp(Expression *expr)
 {
   stringstream ss;
@@ -578,24 +597,6 @@ static int align(int offset)
 }
 
 
-/*
- * Function:	operator << (private)
- *
- * Description:	Write an expression to the specified stream.  This function
- *		first checks to see if the expression is in a register, and
- *		if not then uses its operand.
- */
-// QUESTION REFERRING TO SLIDES
-
-static ostream &operator <<(ostream &ostr, Expression *expr)
-{
-    if (expr->_register != nullptr)
-	return ostr << expr->_register;
-  // unsigned size = expr->type().size();
-  // return ostr << expr->register->name(size);
-
-    return ostr << expr->_operand;
-}
 
 
 /*
