@@ -254,7 +254,7 @@ void Add::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tadd\t" << _right << ", " << _left->_register << endl;
+  cout << "\tadd\t" << _right->_operand << ", " << _left->_register << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -268,7 +268,7 @@ void Subtract::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tsub\t" << _right << ", " << _left->_register << endl;
+  cout << "\tsub\t" << _right->_operand << ", " << _left->_register << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -282,7 +282,7 @@ void Multiply::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\timul\t" << _right << ", " << _left->_register << endl;
+  cout << "\timul\t" << _right->_operand << ", " << _left->_register << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
