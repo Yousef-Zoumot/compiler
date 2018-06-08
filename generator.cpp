@@ -111,7 +111,8 @@ void load(Expression *expr, Register *reg)
 
     if (expr != nullptr){
       unsigned size = expr->type().size();
-      cout << "\tmov\t" << expr->_register << ", ";
+      cout << "\tmov\t" << expr << ", ";
+      // cout << "\tmov\t" << expr->_operand << ", "; //_operand
       cout << reg->name(size) << endl;
     }
     assign(expr, reg);
