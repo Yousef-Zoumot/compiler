@@ -808,7 +808,7 @@ void Function::generate()
     _body->generate();
     offset = temp_offset;
 
-    cout << *retLabel << ":" << endl;
+    cout << *returnLabel << ":" << endl;
     cout << endl;
 
     cout << "\tmovq\t%rbp, %rsp" << endl;
