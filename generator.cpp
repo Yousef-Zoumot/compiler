@@ -161,21 +161,23 @@ void Expression::generate(){
 	// generate();
 }
 
-void Expression::generate(bool &indirect){
-  printBegin("EXPRESSION1");
-	indirect = false;
-	generate();
+// void Expression::generate(bool &indirect){
+//   printBegin("EXPRESSION1");
+// 	indirect = false;
+// 	generate();
+//
+//   printEnd("EXPRESSION1");
+// }
+// void Dereference::generate(){
+//   printBegin("DEREFERENCE");
+// 	//indirect = true;
+// 	   _expr->generate();
+// 	   _operand = _expr->_operand;
+//     printEnd("DEREFERENCE");
+//
+// }
 
-  printEnd("EXPRESSION1");
-}
-void Dereference::generate(bool &indirect){
-  printBegin("DEREFERENCE");
-	//indirect = true;
-	   _expr->generate();
-	   _operand = _expr->_operand;
-    printEnd("DEREFERENCE");
 
-}
 
 void Expression::test(const Label &label, bool ifTrue)
 {
