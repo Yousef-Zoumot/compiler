@@ -593,12 +593,15 @@ void If::generate()
   // cout << exit1 << ":" << endl;
 
   cout << "\tcmp\t" << "$0" << ',' << _expr << endl;
+
    if(_elseStmt == nullptr)
      cout << "\tje\t" << exit1 << endl;
    else
      cout << "\tje\t" << skip << endl;
+
    _thenStmt->generate();
    cout << "\tjmp\t" << exit1 << endl;
+
    if(_elseStmt != nullptr){
      cout << skip << ':' << endl;
      _elseStmt->generate();
@@ -607,7 +610,7 @@ void If::generate()
     assign(nullptr,_expr->_register);
 
 
-  release();
+  //release();
   printEnd("IF");
 }
 
