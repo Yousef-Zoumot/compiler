@@ -752,7 +752,6 @@ void Call::generate()
 void Assignment::generate()
 {
     printBegin("ASSIGNMENT");
-    bool indirection;
     _left->generate();
     _right->generate();
 
@@ -763,24 +762,24 @@ void Assignment::generate()
 
     // cout << "\tmovl\t" << _right << ", " << _left << endl;
 
-    if(indirection) { //*p = expr
-
-        if(_left->type().size() == 1)
-            cout << "\tmovb\t" << _right->_register->name(1) << ", (" << _left << ")" << endl;
-        else if(_left->type().size() == 4)
-        cout << "\tmovl\t" << _right->_register->name(4) << ", (" << _left << ")" << endl;
-        else
-        cout << "\tmov\t" << _right << ", (" << _left << ")" <<endl;
-
-    }
-    else {
+    // if() { //*p = expr
+    //
+    //     if(_left->type().size() == 1)
+    //         cout << "\tmovb\t" << _right->_register->name(1) << ", (" << _left << ")" << endl;
+    //     else if(_left->type().size() == 4)
+    //     cout << "\tmovl\t" << _right->_register->name(4) << ", (" << _left << ")" << endl;
+    //     else
+    //     cout << "\tmov\t" << _right << ", (" << _left << ")" <<endl;
+    //
+    // }
+    // else {
       if(_left->type().size() == 1)
           cout << "\tmovb\t" << _right->_register->name(1) << ", " << _left << endl;
       else if(_left->type().size() == 4)
       cout << "\tmovl\t" << _right->_register->name(4) << ", " << _left << endl;
       else
       cout << "\tmov\t" << _right << ", " << _left <<endl;
-    }
+    // }
 
     assign(_right, _left->_register);
     printEnd("ASSIGNMENT");
