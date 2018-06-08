@@ -515,6 +515,7 @@ void LogicalOr::generate()
   printEnd("LOGICAL OR");
 }
 
+//ADD A JMP AT THE END
 void If::generate()
 {
   printBegin("IF");
@@ -532,8 +533,9 @@ void If::generate()
   if(_elseStmt != nullptr){
     cout << skip << ":" << endl;
     _elseStmt->generate();
-    cout << exit1 << ":" << endl;
   }
+  cout << exit1 << ":" << endl;
+
   release();
   printEnd("IF");
 }
