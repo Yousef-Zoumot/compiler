@@ -776,14 +776,14 @@ void Call::generate()
 
 void Assignment::generate()
 {
-    printBegin("ASSIGNMENT");
-    _left->generate();
-    _right->generate();
-
-    if(_left->_register == nullptr)
-      load(_left , getreg());
-    if(_right->_register == nullptr)
-      load(_right , getreg());
+    // printBegin("ASSIGNMENT");
+    // _left->generate();
+    // _right->generate();
+    //
+    // if(_left->_register == nullptr)
+    //   load(_left , getreg());
+    // if(_right->_register == nullptr)
+    //   load(_right , getreg());
 
     // cout << "\tmovl\t" << _right << ", " << _left << endl;
 
@@ -798,16 +798,67 @@ void Assignment::generate()
     //
     // }
     // else {
-      if(_left->type().size() == 1)
-          cout << "\tmovb\t" << _right->_register->name(1) << ", " << _left << endl;
-      else if(_left->type().size() == 4)
-      cout << "\tmovl\t" << _right->_register->name(4) << ", " << _left << endl;
-      else
-      cout << "\tmov\t" << _right << ", " << _left <<endl;
-    // }
+    //   if(_left->type().size() == 1)
+    //       cout << "\tmovb\t" << _right->_register->name(1) << ", " << _left << endl;
+    //   else if(_left->type().size() == 4)
+    //   cout << "\tmovl\t" << _right->_register->name(4) << ", " << _left << endl;
+    //   else
+    //   cout << "\tmov\t" << _right << ", " << _left <<endl;
+    // // }
+    //
+    // assign(_right, _left->_register);
+    // printEnd("ASSIGNMENT");
 
-    assign(_right, _left->_register);
-    printEnd("ASSIGNMENT");
+
+    if(_left->getDereference() == nullptr){
+ _left->generate();
+ _right->generate();
+ if(_right->_register == nullptr)
+   load(_right,getreg());
+ int size = _left->type().size();
+ cout << "\tmov" << suffix(size) << _right->_register->name(size) << ", " << _left << endl;
+ //assign(_left,_right->_register);
+ if(_right->_operand != _left->_operand)
+   assign(_right,nullptr);
+ assign(_left,_right->_register);
+ }
+ else{
+   _right->generate();
+   _left->getDereference()->generate();
+   if(_right->_register == nullptr)
+     load(_right,getreg());
+   if(_left->getDereference()->_register == nullptr)
+     load(_left->getDereference(), getreg());
+   cout << "\tmov" << suffix(_right->type().size()) << _right->_register->name(_right->type().size()) << ", (" << _left->getDereference() << ')' << endl;
+ }
+}
+
+void Cast::generate()
+{
+  _expr->generate();
+
+  int source_size = _expr->type().size();
+  int destination_size = type().size();
+
+  load(_expr, getreg());
+
+  if(source_size >= destination_size){
+    //cout << "\tmov" << suffix(dest_size) << _expr->_register->name(dest_size) << ',' << _expr->_register->name(dest_size) << endl;
+    assign(this, _expr->_register);
+  }
+  else{
+    string suffix;
+
+    if(destination_size == 4)
+      suffix = "sbl";
+    else{
+      suffix = "slq";
+      if(source_size == 1)
+        suffix = "sbq";
+    }
+    cout << "\tmov" << suffix << '\t' << _expr << ',' << _expr->_register->name(destination_size) << endl;
+    assign(this, _expr->_register);
+  }
 }
 
 

@@ -198,7 +198,7 @@ public:
 class Cast : public Unary {
 public:
     Cast(const Type &type, Expression *expr);
-    // virtual void generate();
+    virtual void generate();
 
 };
 
