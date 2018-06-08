@@ -773,13 +773,14 @@ void Call::generate()
     if (bytesPushed > 0)
 	cout << "\taddq\t$" << bytesPushed << ", %rsp" << endl;
 
-  if(this->type().size() == 1){
-    cout << "\ttmovb\t%al, " << this << endl;
-  } else if(this->type().size() == 4){
-    cout << "\tmovl\t%eax, " << this << endl;
-  }
-  else
-    cout << "\tmov\t%rax, " << this << endl;
+  assign(this, rax);
+  // if(this->type().size() == 1){
+  //   cout << "\ttmovb\t%al, " << this << endl;
+  // } else if(this->type().size() == 4){
+  //   cout << "\tmovl\t%eax, " << this << endl;
+  // }
+  // else
+  //   cout << "\tmov\t%rax, " << this << endl;
 
   printEnd("CALL");
 }
@@ -847,7 +848,7 @@ void Assignment::generate()
    _right->generate();
    _left->getDereference()->generate();
    if(_right->_register == nullptr)
-     load(_right,getreg());
+     load(_right, getreg());
    if(_left->getDereference()->_register == nullptr)
      load(_left->getDereference(), getreg());
    cout << "\tmov" << suffix(_right->type().size()) << _right->_register->name(_right->type().size()) << ", (" << _left->getDereference() << ')' << endl;
