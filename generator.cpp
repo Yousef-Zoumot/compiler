@@ -70,10 +70,10 @@ void assignTemp(Expression *expr)
 }
 
 void printBegin(const std::string &functionName){
-  cout << "# Begin " << functionName << endl;
+  cout << "\t# BEGIN " << functionName << endl;
 }
 void printEnd(const std::string &functionName){
-  cout << "# End " << functionName << endl;
+  cout << "\t# END " << functionName << endl;
 }
 
 void assign(Expression *expr, Register *reg)
@@ -95,7 +95,7 @@ void assign(Expression *expr, Register *reg)
 
 void load(Expression *expr, Register *reg)
 {
-  printBegin("Load");
+  printBegin("LOAD");
   if(reg->_node != expr){
     // assert(reg->_node == nullptr);
 
@@ -115,7 +115,7 @@ void load(Expression *expr, Register *reg)
     }
     assign(expr, reg);
   }
-  printEnd("Load");
+  printEnd("LOAD");
 }
 
 Register * getreg()
@@ -134,23 +134,23 @@ void Expression::generate(){
 }
 
 void Expression::generate(bool &indirect){
-  printBegin("Expr1");
+  printBegin("EXPRESSION1");
 	indirect = false;
 	generate();
 
-  printEnd("Expr1");
+  printEnd("EXPRESSION1");
 }
 void Dereference::generate(bool &indirect){
-  printBegin("Dereference");
+  printBegin("DEREFERENCE");
 	indirect = true;
 	_expr->generate();
 	_operand = _expr->_operand;
-  printEnd("Dereference");
+  printEnd("DEREFERENCE");
 }
 
 void Expression::test(const Label &label, bool ifTrue)
 {
-  printBegin("ExprTest");
+  printBegin("EXPRESSION TEST");
   generate();
 
   if(_register == nullptr)
@@ -160,15 +160,15 @@ void Expression::test(const Label &label, bool ifTrue)
   cout << (ifTrue ? "\tjne\t" : "\tje\t") << label << endl;
 
   assign(this, nullptr);
-  printEnd("ExprTest");
+  printEnd("EXPRESSION TEST");
 }
 
 void release()
 {
-  printBegin("release");
+  printBegin("RELEASE");
   for(unsigned i = 0; i < registers.size(); i++)
     assign(nullptr, registers[i]);
-  printEnd("release");
+  printEnd("RELEASE");
 }
 
 // for(unsigned i = 0; i < _args.size(); i++)
@@ -219,7 +219,7 @@ void release()
 
 
 void compare(Expression * _left, Expression * _right, Expression * this_thing, const std::string &operation){
-  printBegin("compare");
+  printBegin("COMPARE");
   _left->generate();
   _right->generate();
 
@@ -232,7 +232,7 @@ void compare(Expression * _left, Expression * _right, Expression * this_thing, c
 
   assign(_right, nullptr);
   assign(this_thing, _left->_register);
-  printEnd("compare");
+  printEnd("COMPARE");
 }
 
 void Equal::generate()
@@ -268,7 +268,7 @@ void GreaterOrEqual::generate()
 
 void Add::generate()
 {
-  printBegin("Add");
+  printBegin("ADD");
   _left->generate();
   _right->generate();
 
@@ -279,12 +279,12 @@ void Add::generate()
 
   assign(_right, nullptr);
   assign(this, _left->_register);
-  printEnd("Add");
+  printEnd("ADD");
 }
 
 void Subtract::generate()
 {
-  printBegin("Subtract");
+  printBegin("SUBTRACT");
   _left->generate();
   _right->generate();
 
@@ -295,12 +295,12 @@ void Subtract::generate()
 
   assign(_right, nullptr);
   assign(this, _left->_register);
-  printEnd("Subtract");
+  printEnd("SUBTRACT");
 }
 
 void Multiply::generate()
 {
-  printBegin("Multiply");
+  printBegin("MULTIPLY");
   _left->generate();
   _right->generate();
 
@@ -311,7 +311,7 @@ void Multiply::generate()
 
   assign(_right, nullptr);
   assign(this, _left->_register);
-  printEnd("Multiply");
+  printEnd("MULTIPLY");
 }
 // cout << "\tmov\t" << _left << ", %rax" << endl;
 // cout << "\tmov\t" << _right << ", %rcx" << endl;
@@ -321,7 +321,7 @@ void Multiply::generate()
 
 void Divide::generate()
 {
-  printBegin("Divide");
+  printBegin("DIVIDE");
   _left->generate();
   _right->generate();
 
@@ -335,12 +335,12 @@ void Divide::generate()
 
   assign(_right, nullptr);
   assign(this, _left->_register);
-  printEnd("Divide");
+  printEnd("DIVIDE");
 }
 
 void Remainder::generate()
 {
-  printBegin("Remainder");
+  printBegin("REMAINDER");
   _left->generate();
   _right->generate();
 
@@ -354,7 +354,7 @@ void Remainder::generate()
 
   assign(_right, nullptr);
   assign(this, rdx);
-  printEnd("Remainder");
+  printEnd("REMAINDER");
 }
 
 void Negate::generate()
@@ -362,7 +362,7 @@ void Negate::generate()
   // cout << "\tmovl\t" << _expr << ", %eax" << endl;
   // cout << "\tnegl\t" << "%eax" << endl;
   // cout << "\taddl\t" << ? << endl;
-  printBegin("Negate");
+  printBegin("NEGATE");
   _expr->generate();
 
   if(_expr->_register == nullptr)
@@ -372,7 +372,7 @@ void Negate::generate()
 
   assign(this, _expr->_register);
 
-  printEnd("Negate");
+  printEnd("NEGATE");
 
 }
 
@@ -382,7 +382,7 @@ void Not::generate()
   // cout << "\tcmpl\t" << "$0, %eax" << endl;
   // cout << "\tsete %al" << endl;
   // cout << "\tmovzbl %al, %eax" << endl;
-  printBegin("Not");
+  printBegin("NOT");
   _expr->generate();
 
   if(_expr->_register == nullptr)
@@ -393,7 +393,7 @@ void Not::generate()
   cout << "\tmovzbl\t%" << _expr->_register->name(1) << ", %" << _expr->_register->name(4) << endl;
 
   assign(this, _expr->_register);
-  printEnd("Not");
+  printEnd("NOT");
 }
 
 void Dereference::generate()
@@ -401,7 +401,7 @@ void Dereference::generate()
   // cout <<"\tmovl\t" << _expr << ", %rax" << endl;
   // cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "\t(%rax), %rax" << endl;
   // cout << "\tmovl\t" << "%rax, " << ? << endl;
-  printBegin("Dereference Generate");
+  printBegin("DEREFERENCE GENERATE");
   _expr->generate();
 
   if(_expr->_register == nullptr)
@@ -410,12 +410,12 @@ void Dereference::generate()
   cout << (_type.size() == 1 ? "\tmovsbl\t" : "\tmovl\t") << "(" << _expr->_register << "), " << _expr->_register << endl;
 
   assign(this, _expr->_register);
-  printEnd("Dereference Generate");
+  printEnd("DEREFERENCE GENERATE");
 }
 
 void Address::generate()
 {
-  printBegin("Address");
+  printBegin("ADDRESS");
   _expr->generate();
 
   if(_expr->_register == nullptr)
@@ -425,12 +425,12 @@ void Address::generate()
   // cout << "\tmovq\t" << "%rax, " << ? << endl;
 
   assign(this, _expr->_register);
-  printEnd("Address");
+  printEnd("ADDRESS");
 }
 
 void LogicalAnd::generate()
 {
-  printBegin("Logical AND");
+  printBegin("LOGICAL AND");
   _left->generate();
   _right->generate();
 
@@ -456,13 +456,13 @@ void LogicalAnd::generate()
   cout << "\tmov\t$1, " << _left->_register << endl;
 
   assign(this, _left->_register);
-  printEnd("Logical AND");
+  printEnd("LOGICAL AND");
 }
 
 
 void LogicalOr::generate()
 {
-  printBegin("Logical OR");
+  printBegin("LOGICAL OR");
   _left->generate();
   _right->generate();
 
@@ -490,7 +490,7 @@ void LogicalOr::generate()
   cout << label1 << ":" << endl;
 
   assign(this, _left->_register);
-  printEnd("Logical OR");
+  printEnd("LOGICAL OR");
 }
 
 void If::generate()
@@ -621,7 +621,7 @@ void Number::generate()
 
 void Identifier::generate()
 {
-    printBegin("Identifier");
+    printBegin("IDENTIFIER");
     stringstream ss;
 
 
@@ -631,7 +631,7 @@ void Identifier::generate()
 	ss << _symbol->_offset << "(%rbp)";
 
     _operand = ss.str();
-    printEnd("Identifier");
+    printEnd("IDENTIFIER");
 }
 
 
@@ -735,7 +735,7 @@ void Call::generate()
 
 void Assignment::generate()
 {
-    printBegin("Assignment");
+    printBegin("ASSIGNMENT");
     bool indirection;
     _left->generate(indirection);
     _right->generate();
@@ -767,7 +767,7 @@ void Assignment::generate()
     }
 
     assign(_right, _left->_register);
-    printEnd("Assignment");
+    printEnd("ASSIGNMENT");
 }
 
 
