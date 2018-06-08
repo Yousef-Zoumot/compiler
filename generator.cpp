@@ -461,7 +461,7 @@ void Address::generate()
 
 
 
-  if(_expr->getDeref() == nullptr){
+  if(_expr->getDereference() == nullptr){
 
    _expr->generate();
    assign(this,getreg());
@@ -470,12 +470,12 @@ void Address::generate()
  cout << "\tlea\t" << _expr << ',' << this << endl;
  }
  else{
-    if(_expr->getDeref()->_operand != string()){
-      _operand = _expr->getDeref()->_operand;
+    if(_expr->getDereference()->_operand != string()){
+      _operand = _expr->getDereference()->_operand;
     }
     else{
-      _expr->getDeref()->generate();
-      _expr = _expr->getDeref();
+      _expr->getDereference()->generate();
+      _expr = _expr->getDereference();
       //_operan = _expr->_operand;
       assign(this,_expr->_register);
     }
