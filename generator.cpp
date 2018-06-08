@@ -206,7 +206,7 @@ void compare(Expression * _left, Expression * _right, Expression * this_thing, c
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tcmp\t" << _right << ", " << _left->_register << endl;
+  cout << "\tcmp\t" << _right->_operand << ", " << _left->_register << endl;
   cout << "\t" << operation << "\t" << _left->_register->name(1) << endl; // set variable ? shouldn't the name be 4?
   cout << "\tmovzbl\t" << _left->_register->name(1) << ", " << _left->_register->name(4) << endl;
 
