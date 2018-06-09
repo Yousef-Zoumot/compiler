@@ -257,6 +257,8 @@ void compare(Expression * _left, Expression * _right, Expression * this_thing, c
 
   if(_left->_register == nullptr)
     load(_left, getreg());
+  if(_right->_register == nullptr)
+  load(_right, getreg());
 
   cout << "\tcmp\t" << _right << ", " << _left << endl;
   cout << "\t" << operation << "\t" << _left->_register->name(1) << endl; // set variable ? shouldn't the name be 4?
