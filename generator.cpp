@@ -507,7 +507,6 @@ void Address::generate()
     else{
       _expr->getDereference()->generate();
       _expr = _expr->getDereference();
-      //_operan = _expr->_operand;
       assign(this,_expr->_register);
     }
   }
@@ -892,14 +891,14 @@ void Assignment::generate()
  _left->generate();
  _right->generate();
  if(_right->_register == nullptr)
-   load(_right,getreg());
+   load(_right, getreg());
  int size = _left->type().size();
  cout << "\tmov" << suffix(size) << _right->_register->name(size) << ", " << _left << endl;
  //assign(_left,_right->_register);
- assign(_left,_right->_register);
+ assign(_left, _right->_register);
  if(_right->_operand != _left->_operand)
-   assign(_right,nullptr);
- assign(_left,_right->_register);
+ assign(_left, _right->_register);
+ assign(_right, nullptr);
  }
  else{
    _right->generate();
