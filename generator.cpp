@@ -158,7 +158,7 @@ Register * getreg()
 }
 
 void Expression::generate(){
-  cout << "oops" << endl;
+  cout << "error" << endl;
 	// generate();
 }
 
@@ -1017,7 +1017,7 @@ void Function::generate()
     }
 
     temp_offset = offset;
-    returnLabel = Label();
+    returnLabel = new Label;
     _body->generate();
     offset = temp_offset;
 
