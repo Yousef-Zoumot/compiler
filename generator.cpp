@@ -460,12 +460,16 @@ void Dereference::generate()
   int size;
 
 _expr->generate();
+
 if(_expr->_register == nullptr)
   load(_expr, getreg());
+
 size = _expr->type().size();
+
 cout << "\tmov\t" << '(' << _expr->_register->name(size) << ")," << _expr->_register->name(size) << endl;
+
 assign(this,_expr->_register);
-// _operand = '(' + _operand + ')';
+_operand = '(' + _operand + ')';
   printEnd("DEREFERENCE GENERATE");
 }
 
