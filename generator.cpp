@@ -97,10 +97,10 @@ void String::generate(){
 }
 
 void printBegin(const std::string &functionName){
-  cout << "\t# BEGIN " << functionName << endl;
+  //cout << "\t# BEGIN " << functionName << endl;
 }
 void printEnd(const std::string &functionName){
-  cout << "\t# END " << functionName << endl;
+  //cout << "\t# END " << functionName << endl;
 }
 
 void assign(Expression *expr, Register *reg)
