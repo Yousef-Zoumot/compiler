@@ -890,6 +890,7 @@ void Assignment::generate()
  int size = _left->type().size();
  cout << "\tmov" << suffix(size) << _right->_register->name(size) << ", " << _left << endl;
  //assign(_left,_right->_register);
+ assign(_left,_right->_register);
  if(_right->_operand != _left->_operand)
    assign(_right,nullptr);
  assign(_left,_right->_register);
