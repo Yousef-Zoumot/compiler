@@ -638,7 +638,7 @@ void While::generate()
   _expr->generate();
   if(_expr->_register == nullptr)
     load(_expr, getreg());
-  cout << "\tcmp\t" << "$0" << ',' << _expr << endl;
+  cout << "\tcmp\t$0, " << _expr << endl;
   cout << "\tje\t" << exit1 << endl;
   _stmt->generate();
   cout << "\tjmp\t" << loop << endl;
@@ -919,10 +919,8 @@ void Cast::generate()
 
   load(_expr, getreg());
 
-  if(source_size >= destination_size){
-    //cout << "\tmov" << suffix(dest_size) << _expr->_register->name(dest_size) << ',' << _expr->_register->name(dest_size) << endl;
+  if(source_size >= destination_size)
     assign(this, _expr->_register);
-  }
   else{
     string suffix;
 
@@ -1019,7 +1017,7 @@ void Function::generate()
     }
 
     temp_offset = offset;
-    returnLabel = new Label;
+    returnLabel = Label();
     _body->generate();
     offset = temp_offset;
 
