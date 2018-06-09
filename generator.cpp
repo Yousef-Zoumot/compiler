@@ -258,7 +258,7 @@ void compare(Expression * _left, Expression * _right, Expression * this_thing, c
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tcmp\t" << _right << ", " << _left->_register << endl;
+  cout << "\tcmp\t" << _right << ", " << _left << endl;
   cout << "\t" << operation << "\t" << _left->_register->name(1) << endl; // set variable ? shouldn't the name be 4?
   cout << "\tmovzbl\t" << _left->_register->name(1) << ", " << _left->_register->name(4) << endl;
 
@@ -307,7 +307,7 @@ void Add::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tadd\t" << _right << ", " << _left->_register << endl;
+  cout << "\tadd\t" << _right << ", " << _left << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -323,7 +323,7 @@ void Subtract::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\tsub\t" << _right << ", " << _left->_register << endl;
+  cout << "\tsub\t" << _right << ", " << _left << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -339,7 +339,7 @@ void Multiply::generate()
   if(_left->_register == nullptr)
     load(_left, getreg());
 
-  cout << "\timul\t" << _right << ", " << _left->_register << endl;
+  cout << "\timul\t" << _right << ", " << _left << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -369,7 +369,7 @@ void Divide::generate()
     else
       cout << "\tcqto\t" << endl;
 
-  cout << "\tidiv\t" << _right->_register << endl;
+  cout << "\tidiv\t" << _right << endl;
 
   assign(_right, nullptr);
   assign(this, _left->_register);
@@ -393,7 +393,7 @@ void Remainder::generate()
   else
     cout << "\tcqto\t" << endl;
 
-  cout << "\tidiv\t" << _right->_register << endl;
+  cout << "\tidiv\t" << _right << endl;
 
   assign(_right, nullptr);
   assign(this, rdx);
@@ -411,7 +411,7 @@ void Negate::generate()
   if(_expr->_register == nullptr)
     load(_expr, getreg());
 
-  cout << "\tneg\t" << _expr->_register << endl;
+  cout << "\tneg\t" << _expr << endl;
 
   assign(this, _expr->_register);
 
@@ -431,7 +431,7 @@ void Not::generate()
   if(_expr->_register == nullptr)
     load(_expr, getreg());
 
-  cout << "\tcmp\t$0, " << _expr->_register << endl;
+  cout << "\tcmp\t$0, " << _expr << endl;
   cout << "\tsete\t" << _expr->_register->name(1) << endl;
   cout << "\tmovzbl\t" << _expr->_register->name(1) << ", " << _expr->_register->name(4) << endl;
 
@@ -529,17 +529,17 @@ void LogicalAnd::generate()
   ss << label2;
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
-  cout << "\tcmp\t" << "$0, " << _left->_register << endl;
+  cout << "\tcmp\t" << "$0, " << _left << endl;
   cout << "\tje\t" << label2 << endl;
 
-  cout << "\tmov\t" << _right->_register << ", " << _left->_register << endl;
-  cout << "\tcmp\t" << "$0, " << _left->_register << endl;
+  cout << "\tmov\t" << _right << ", " << _left << endl;
+  cout << "\tcmp\t" << "$0, " << _left << endl;
   cout << "\tje\t" << label2 << endl;
   cout << "\tjmp\t" << label1 << endl;
   cout << label2 << ":" << endl;
-  cout << "\tmov\t$0, " << _left->_register << endl;
+  cout << "\tmov\t$0, " << _left << endl;
   cout << label1 << ":" << endl;
-  cout << "\tmov\t$1, " << _left->_register << endl;
+  cout << "\tmov\t$1, " << _left << endl;
 
   assign(this, _left->_register);
   printEnd("LOGICAL AND");
@@ -562,16 +562,16 @@ void LogicalOr::generate()
   ss << label2;
 
   // cout << "\tmov\t" << _left << ", %rax" << endl;
-  cout << "\tcmp\t" << "$0, " << _left->_register << endl;
+  cout << "\tcmp\t" << "$0, " << _left << endl;
   cout << "\tjne\t" << label2 << endl;
 
-  cout << "\tmov\t" << _right->_register << ", " << _left->_register << endl;
-  cout << "\tcmp\t" << "$0, " << _left->_register << endl;
+  cout << "\tmov\t" << _right << ", " << _left << endl;
+  cout << "\tcmp\t" << "$0, " << _left << endl;
   cout << "\tjne\t" << label2 << endl;
-  cout << "\tmov\t$0, " << _left->_register << endl;
+  cout << "\tmov\t$0, " << _left << endl;
   cout << "\tjmp\t" << label1 << endl;
   cout << label2 << ":" << endl;
-  cout << "\tmov\t$1, " << _left->_register << endl;
+  cout << "\tmov\t$1, " << _left << endl;
 
   cout << label1 << ":" << endl;
 
