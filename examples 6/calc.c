@@ -13,7 +13,24 @@ int lexan(void)
     if (c == 0)
 	c = getchar();
 
+  while (isspace(c) && c != NL)
+c = getchar();
 
+  if (!isdigit(c)) {
+int x;
+x = c;
+c = 0;
+return x;
+  }
+
+  n = 0;
+
+  while (isdigit(c)) {
+n = n * 10 + c - 48;
+c = getchar(c);
+  }
+
+  lexval = n;
     return NUM;
 }
 
